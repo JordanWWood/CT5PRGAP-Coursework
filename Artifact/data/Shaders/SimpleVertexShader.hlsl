@@ -25,8 +25,7 @@ struct VertexShaderOutput
     float4 position : SV_POSITION;
 };
 
-VertexShaderOutput SimpleVertexShader( AppData IN )
-{
+VertexShaderOutput SimpleVertexShader( AppData IN ) {
     VertexShaderOutput OUT;
 
     matrix mvp = mul( projectionMatrix, mul( viewMatrix, worldMatrix ) );

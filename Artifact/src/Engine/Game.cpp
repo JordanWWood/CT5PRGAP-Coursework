@@ -63,16 +63,15 @@ int Game::Run() {
 		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-		}
-		else {
+		} else {
 			DWORD currentTime = timeGetTime();
 			float deltaTime = (currentTime - previousTime) / 1000.0f;
 			previousTime = currentTime;
 
-			// Cap the delta time to the max time step (useful if your 
-			// debugging and you don't want the deltaTime value to explode.
+			// Cap the delta time to the max time step
 			deltaTime = std::min<float>(deltaTime, maxTimeStep);
 
+			m_Context->GetCamera()->Update(m_Context->GetShaders());
 			Update(deltaTime);
 
 			m_Context->Clear(DirectX::Colors::CornflowerBlue, 1.0f, 0);
@@ -87,19 +86,10 @@ int Game::Run() {
 }
 
 void Game::Update(float deltaTime) {
-	const DirectX::XMVECTOR eyePosition = DirectX::XMVectorSet(0, 0, -10, 1);
-	const DirectX::XMVECTOR focusPoint = DirectX::XMVectorSet(0, 0, 0, 1);
-	const DirectX::XMVECTOR upDirection = DirectX::XMVectorSet(0, 1, 0, 0);
-
-	// Camera
-	DirectX::XMMATRIX m_ViewMatrix = DirectX::XMMatrixLookAtLH(eyePosition, focusPoint, upDirection);
-	m_Context->GetShaders()->Update(Shaders::CB_Frame, m_ViewMatrix);
-
 	static float angle = 0.0f;
 	if (GetAsyncKeyState(VK_LEFT)) {
 		angle += 5.0f * deltaTime;
-	}
-	else if (GetAsyncKeyState(VK_RIGHT)) {
+	} else if (GetAsyncKeyState(VK_RIGHT)) {
 		angle -= 5.0f * deltaTime;
 	}
 

@@ -4,10 +4,10 @@
 class Shaders
 {
 public:
-	Shaders(ID3D11Device* device, ID3D11DeviceContext* d3dDeviceContext);
+	Shaders(ID3D11Device* p_Device, ID3D11DeviceContext* p_d3dDeviceContext);
 	~Shaders();
 
-	void Shaders::BindShaders(ID3D11RenderTargetView* d3dRenderTargetView, ID3D11DepthStencilState* d3dDepthStencilState, ID3D11DepthStencilView* d3dDepthStencilView, ID3D11RasterizerState *d3dRaserizerState, D3D11_VIEWPORT* viewport);
+	void Shaders::BindShaders(ID3D11RenderTargetView* p_d3dRenderTargetView, ID3D11DepthStencilState* p_d3dDepthStencilState, ID3D11DepthStencilView* p_d3dDepthStencilView, ID3D11RasterizerState *p_d3dRaserizerState, D3D11_VIEWPORT* p_Viewport);
 	
 	// Shader resources
 	enum ConstantBuffer {
@@ -23,11 +23,11 @@ public:
 		DirectX::XMFLOAT3 Color;
 	};
 
-	void Update(ConstantBuffer cb, DirectX::XMMATRIX matrix);
-	HRESULT CreateBuffer(D3D11_BUFFER_DESC* desc, ConstantBuffer buffer);
+	void Update(ConstantBuffer p_CB, DirectX::XMMATRIX p_Matrix);
+	HRESULT CreateBuffer(D3D11_BUFFER_DESC* p_Desc, ConstantBuffer p_Buffer);
 
 	template <class ShaderClass>
-	HRESULT CreateShader(ID3DBlob* pShaderBlob, ID3D11ClassLinkage* pClassLinkage);
+	HRESULT CreateShader(ID3DBlob* p_ShaderBlob, ID3D11ClassLinkage* p_ClassLinkage);
 
 	bool LoadShaders();
 

@@ -4,21 +4,21 @@
 class Window {
 	
 public:
-	Window(LONG windowWidth, LONG windowHeight, LPCSTR windowName, HINSTANCE *hInstance, int *cmdShow);
+	Window(LONG p_WindowWidth, LONG p_WindowHeight, LPCSTR p_WindowName, HINSTANCE *p_HInstance, int *p_cmdShow);
 	virtual ~Window();
 
 	int InitWindow();
 
-	HWND GetWindowHandle() const { return g_WindowHandle; }
+	HWND GetWindowHandle() const { return m_WindowHandle; }
 private:
 	HINSTANCE *m_hInstance;
 	int *m_cmdShow;
 
 	LONG m_WindowWidth;
 	LONG m_WindowHeight;
-	LPCSTR g_WindowClassName = "DirectXWindowClass";
+	LPCSTR m_WindowClassName = "DirectXWindowClass";
 	LPCSTR m_WindowName;
 
-	HWND g_WindowHandle = nullptr;;
+	HWND m_WindowHandle = nullptr;;
 };
 

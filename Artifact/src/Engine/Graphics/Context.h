@@ -2,29 +2,32 @@
 #include "Window.h"
 #include "Shaders.h"
 #include <vector>
+#include "Camera.h"
 
 class Mesh;
 
 class Context
 {
 public:
-	Context(HINSTANCE *hInstance, int *cmdShow, LONG windowWidth, LONG windowHeight, LPCSTR windowName, BOOL vSync);
+	Context(HINSTANCE *p_HInstance, int *p_cmdShow, LONG p_WindowWidth, LONG p_WindowHeight, LPCSTR p_WindowName, BOOL p_vSync);
 	~Context();
 
 	int InitDirectX();
 
 	Window* GetWindow() const { return m_window; }
 
-	void Clear(const FLOAT clearColor[4], FLOAT clearDepth, UINT8 clearStencil);
+	void Clear(const FLOAT p_ClearColor[4], FLOAT p_ClearDepth, UINT8 p_ClearStencil);
 	void Present();
 
 	void RenderMesh(Mesh* mesh);
-	Mesh* CreateMesh(std::vector<Shaders::VertexPosColor> vertex, std::vector<WORD> indices) const;
+	Mesh* CreateMesh(std::vector<Shaders::VertexPosColor> p_Vertex, std::vector<WORD> p_Indices) const;
 
 	Shaders* GetShaders() const { return m_shaders; }
+	Camera* GetCamera() const { return m_camera; }
 private:
 	Window* m_window = nullptr;
 	Shaders* m_shaders = nullptr;
+	Camera *m_camera = nullptr;
 
 	BOOL m_EnableVSync;
 
@@ -49,5 +52,5 @@ private:
 	DirectX::XMMATRIX m_ViewMatrix;
 	DirectX::XMMATRIX m_ProjectionMatrix;
 
-	static DXGI_RATIONAL QueryRefreshRate(UINT screenWidth, UINT screenHeight, BOOL vsync);
+	static DXGI_RATIONAL QueryRefreshRate(UINT p_ScreenWidth, UINT m_ScreenHeight, BOOL p_vsync);
 };

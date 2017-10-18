@@ -1,19 +1,24 @@
 #include "ArtifactPCH.h"
 #include "Window.h"
-#include "../../../resource.h"
+#include "resource.h"
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
-Window::Window(LONG windowWidth, LONG windowHeight, LPCSTR windowName, HINSTANCE *hInstance, int *cmdShow) {
-	m_WindowWidth = windowWidth;
-	m_WindowHeight = windowHeight;
-	m_WindowName = windowName;
+Window::Window(LONG p_WindowWidth, LONG p_WindowHeight, LPCSTR p_WindowName, HINSTANCE *p_HInstance, int *p_CmdShow) {
+	m_WindowWidth = p_WindowWidth;
+	m_WindowHeight = p_WindowHeight;
+	m_WindowName = p_WindowName;
 
-	m_hInstance = hInstance;
-	m_cmdShow = cmdShow;
+	m_hInstance = p_HInstance;
+	m_cmdShow = p_CmdShow;
 }
 
 Window::~Window() {
+	delete(m_hInstance);
+	delete(m_cmdShow);
+
+	m_hInstance = NULL;
+	m_cmdShow = NULL;
 }
 
 /**
@@ -29,23 +34,23 @@ int Window::InitWindow() {
 	wndClass.hIcon = LoadIcon(*m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wndClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wndClass.lpszMenuName = nullptr;
-	wndClass.lpszClassName = g_WindowClassName;
+	wndClass.lpszClassName = m_WindowClassName;
 
 	if (!RegisterClassEx(&wndClass)) { return -1; }
 
 	RECT windowRect = { 0, 0, m_WindowWidth, m_WindowHeight };
 	AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE);
 
-	g_WindowHandle = CreateWindowA(g_WindowClassName, m_WindowName,
+	m_WindowHandle = CreateWindowA(m_WindowClassName, m_WindowName,
 		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
 		windowRect.right - windowRect.left,
 		windowRect.bottom - windowRect.top,
 		nullptr, nullptr, *m_hInstance, nullptr);
 
-	if (!g_WindowHandle) { return -1; }
+	if (!m_WindowHandle) { return -1; }
 
-	ShowWindow(g_WindowHandle, *m_cmdShow);
-	UpdateWindow(g_WindowHandle);
+	ShowWindow(m_WindowHandle, *m_cmdShow);
+	UpdateWindow(m_WindowHandle);
 
 	return 0;
 }
