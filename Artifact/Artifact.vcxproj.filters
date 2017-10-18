@@ -86,9 +86,4 @@
       <Filter>Data\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\Icons\icon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>
