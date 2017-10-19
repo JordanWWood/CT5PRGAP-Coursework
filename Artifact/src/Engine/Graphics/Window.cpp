@@ -52,6 +52,10 @@ int Window::InitWindow() {
 	ShowWindow(m_WindowHandle, *m_cmdShow);
 	UpdateWindow(m_WindowHandle);
 
+	SetForegroundWindow(m_WindowHandle);
+	SetFocus(m_WindowHandle);
+
+//	ShowCursor(false);
 	return 0;
 }
 

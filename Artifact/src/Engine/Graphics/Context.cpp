@@ -86,20 +86,17 @@ int Context::InitDirectX() {
 	                                           D3D11_SDK_VERSION, &swapChainDesc, &m_d3dSwapChain, &m_d3dDevice,
 	                                           &featureLevel,
 	                                           &m_d3dDeviceContext);
-
 	if (hr == E_INVALIDARG)
 		hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE,
 		                                   nullptr, createDeviceFlags, &featureLevels[1], _countof(featureLevels) - 1,
 		                                   D3D11_SDK_VERSION, &swapChainDesc, &m_d3dSwapChain, &m_d3dDevice, &featureLevel,
 		                                   &m_d3dDeviceContext);
-
 	if (FAILED(hr)) return -1;
 
 	// The Direct3D device and swap chain were successfully created..
 	ID3D11Texture2D* backBuffer;
 	hr = m_d3dSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&backBuffer));
 	if (FAILED(hr)) return -1;
-
 	hr = m_d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &m_d3dRenderTargetView);
 	if (FAILED(hr)) return -1;
 
@@ -172,7 +169,7 @@ int Context::InitDirectX() {
 	m_ProjectionMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), static_cast<float>(clientWidth) / static_cast<float>(clientHeight), 0.1f, 100.0f);
 	m_shaders->Update(Shaders::CB_Application, m_ProjectionMatrix);
 
-	m_camera = new Camera(DirectX::XMVectorSet(0, 0, -10, 1), DirectX::XMVectorSet(0, 0, 0, 1), DirectX::XMVectorSet(0, 1, 0, 0));
+	m_camera = new Camera(DirectX::XMVectorSet(0, 0, -10, 1), DirectX::XMVectorSet(0, 0, 0, 1), DirectX::XMVectorSet(0, 1, 0, 0), DirectX::XMFLOAT2{ static_cast<float>(clientWidth / 2), static_cast<float>(clientHeight / 2 )});
 
 	return 1;
 }
@@ -189,13 +186,27 @@ void Context::Present() {
 	else m_d3dSwapChain->Present(0, 0);
 }
 
+void Context::Frame() {
+	m_camera->Update(GetShaders(), GetWindow());
+	Clear(DirectX::Colors::CornflowerBlue, 1.0f, 0);
+
+	for (Mesh* mesh : m_AllMesh) {
+		RenderMesh(mesh);
+	}
+
+	Present();
+}
+
 void Context::RenderMesh(Mesh* mesh) {
 	mesh->Render(m_d3dDevice, m_d3dDeviceContext, m_shaders, m_d3dRenderTargetView,
 	             m_d3dDepthStencilState, m_d3dDepthStencilView, m_d3dRasterizerState, &m_Viewport);
 }
 
-Mesh* Context::CreateMesh(const std::vector<Shaders::VertexPosColor> vertex, const std::vector<WORD> indices) const {
-	return new Mesh(vertex, indices, m_d3dDevice);
+Mesh* Context::CreateMesh(const std::vector<Shaders::VertexPosColor> vertex, const std::vector<WORD> indices, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
+	Mesh* mesh = new Mesh(m_d3dDevice, vertex, indices, pPosition, pRotation, pScale);
+	m_AllMesh.push_back(mesh);
+
+	return mesh;
 }
 
 // This function was inspired by :

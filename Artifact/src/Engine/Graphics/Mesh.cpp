@@ -4,26 +4,30 @@
 #include <sstream>
 
 
-Mesh::Mesh(const std::vector<Shaders::VertexPosColor> p_vertex, const std::vector<WORD> p_indicies, ID3D11Device* d3dDevice) {
-	m_Indicies = p_indicies;
-	m_Vertices = p_vertex;
+Mesh::Mesh(ID3D11Device* pD3DDevice, const std::vector<Shaders::VertexPosColor> pVertex, const std::vector<WORD> pIndicies, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
+	m_Indicies = pIndicies;
+	m_Vertices = pVertex;
+
+	m_position = pPosition;
+	m_rotation = pRotation;
+	m_scale = pScale;
 
 	// Create an initialize the vertex buffer.
 	D3D11_BUFFER_DESC vertexBufferDesc;
 	ZeroMemory(&vertexBufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexBufferDesc.ByteWidth = sizeof(Shaders::VertexPosColor) * p_vertex.size();
+	vertexBufferDesc.ByteWidth = sizeof(Shaders::VertexPosColor) * pVertex.size();
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
 	D3D11_SUBRESOURCE_DATA resourceData;
 	ZeroMemory(&resourceData, sizeof(D3D11_SUBRESOURCE_DATA));
 
-	resourceData.pSysMem = &p_vertex[0];
+	resourceData.pSysMem = &pVertex[0];
 
 	//TODO change exit message
-	HRESULT hr = d3dDevice->CreateBuffer(&vertexBufferDesc, &resourceData, &m_d3dVertexBuffer);
+	HRESULT hr = pD3DDevice->CreateBuffer(&vertexBufferDesc, &resourceData, &m_d3dVertexBuffer);
 	if (FAILED(hr)) { FatalAppExit(0, "Vertex Buffer"); }
 
 	// Create and initialize the index buffer.
@@ -31,13 +35,15 @@ Mesh::Mesh(const std::vector<Shaders::VertexPosColor> p_vertex, const std::vecto
 	ZeroMemory(&indexBufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	indexBufferDesc.ByteWidth = sizeof(WORD) * p_indicies.size();
+	indexBufferDesc.ByteWidth = sizeof(WORD) * pIndicies.size();
 	indexBufferDesc.CPUAccessFlags = 0;
 	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	resourceData.pSysMem = &p_indicies[0];
+	resourceData.pSysMem = &pIndicies[0];
 
-	hr = d3dDevice->CreateBuffer(&indexBufferDesc, &resourceData, &m_d3dIndexBuffer);
+	hr = pD3DDevice->CreateBuffer(&indexBufferDesc, &resourceData, &m_d3dIndexBuffer);
 	if (FAILED(hr)) { FatalAppExit(0, "Index buffer"); }
+
+	CalculateNextMatrix();
 }
 
 Mesh::~Mesh() {
@@ -67,7 +73,7 @@ void Mesh::Render(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext
 	d3dDeviceContext->DrawIndexed(m_Indicies.size(), 0, 0);
 }
 
-Mesh* Mesh::LoadFromFile(std::string path, ID3D11Device* device) {
+Mesh* Mesh::LoadFromFile(ID3D11Device* device, std::string path, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
 	std::vector<Shaders::VertexPosColor> vertices;
 	std::vector<WORD> indices;
 
@@ -106,6 +112,37 @@ Mesh* Mesh::LoadFromFile(std::string path, ID3D11Device* device) {
 		}
 	}
 
-	return new Mesh(vertices, indices, device);
+	return new Mesh(device, vertices, indices, pPosition, pRotation, pScale);
 }
 
+void Mesh::CalculateNextMatrix() {
+	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
+	DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
+	DirectX::XMMATRIX scale = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
+
+	m_nextMatrix = XMMatrixMultiply(XMMatrixMultiply(translation, rotation), scale);
+}
+
+void Mesh::Move(DirectX::XMFLOAT3 vec) {
+	m_position.x += vec.x;
+	m_position.y += vec.y;
+	m_position.z += vec.z;
+
+	CalculateNextMatrix();
+}
+
+void Mesh::Rotate(DirectX::XMFLOAT3 vec) {
+	m_rotation.x += vec.x;
+	m_rotation.y += vec.y;
+	m_rotation.z += vec.z;
+
+	CalculateNextMatrix();
+}
+
+void Mesh::Scale(DirectX::XMFLOAT3 vec) {
+	m_scale.x += vec.x;
+	m_scale.y += vec.y;
+	m_scale.z += vec.z;
+
+	CalculateNextMatrix();
+}

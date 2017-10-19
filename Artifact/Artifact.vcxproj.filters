@@ -31,6 +31,18 @@
     <Filter Include="Header Files\Engine\Graphics">
       <UniqueIdentifier>{b13690f2-4c40-4b84-8975-0be37caa0cff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Input">
+      <UniqueIdentifier>{5fcb8d66-84df-4734-8070-5faf0f1e7d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Input">
+      <UniqueIdentifier>{3dc84761-5c21-44f6-9060-44c7369ba3e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Graphics\Utils">
+      <UniqueIdentifier>{31be8d4e-b306-476d-84f1-699185a0701d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Graphics\Utils">
+      <UniqueIdentifier>{79da89a8-d246-40b0-a1ae-b6b0e78c7d64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -57,6 +69,9 @@
     <ClCompile Include="src\Engine\Graphics\Camera.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Input\Input.cpp">
+      <Filter>Source Files\Engine\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -82,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="src\Engine\Graphics\Camera.h">
       <Filter>Header Files\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Input\Input.h">
+      <Filter>Header Files\Engine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

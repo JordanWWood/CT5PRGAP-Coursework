@@ -1,8 +1,8 @@
 #pragma once
 #include "Window.h"
 #include "Shaders.h"
-#include <vector>
 #include "Camera.h"
+#include <vector>
 
 class Mesh;
 
@@ -18,9 +18,11 @@ public:
 
 	void Clear(const FLOAT p_ClearColor[4], FLOAT p_ClearDepth, UINT8 p_ClearStencil);
 	void Present();
+	void Frame();
 
+	Mesh* CreateMesh(const std::vector<Shaders::VertexPosColor> vertex, const std::vector<WORD> indices, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale);
 	void RenderMesh(Mesh* mesh);
-	Mesh* CreateMesh(std::vector<Shaders::VertexPosColor> p_Vertex, std::vector<WORD> p_Indices) const;
+	void DeleteMesh(Mesh* mesh);
 
 	Shaders* GetShaders() const { return m_shaders; }
 	Camera* GetCamera() const { return m_camera; }
@@ -51,6 +53,8 @@ private:
 
 	DirectX::XMMATRIX m_ViewMatrix;
 	DirectX::XMMATRIX m_ProjectionMatrix;
+
+	std::vector<Mesh*> m_AllMesh;
 
 	static DXGI_RATIONAL QueryRefreshRate(UINT p_ScreenWidth, UINT m_ScreenHeight, BOOL p_vsync);
 };
