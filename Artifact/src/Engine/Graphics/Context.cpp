@@ -82,15 +82,15 @@ int Context::InitDirectX() {
 	D3D_FEATURE_LEVEL featureLevel;
 
 	HRESULT hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE,
-	                                           nullptr, createDeviceFlags, featureLevels, _countof(featureLevels),
-	                                           D3D11_SDK_VERSION, &swapChainDesc, &m_d3dSwapChain, &m_d3dDevice,
-	                                           &featureLevel,
-	                                           &m_d3dDeviceContext);
+		nullptr, createDeviceFlags, featureLevels, _countof(featureLevels),
+		D3D11_SDK_VERSION, &swapChainDesc, &m_d3dSwapChain, &m_d3dDevice,
+		&featureLevel,
+		&m_d3dDeviceContext);
 	if (hr == E_INVALIDARG)
 		hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE,
-		                                   nullptr, createDeviceFlags, &featureLevels[1], _countof(featureLevels) - 1,
-		                                   D3D11_SDK_VERSION, &swapChainDesc, &m_d3dSwapChain, &m_d3dDevice, &featureLevel,
-		                                   &m_d3dDeviceContext);
+			nullptr, createDeviceFlags, &featureLevels[1], _countof(featureLevels) - 1,
+			D3D11_SDK_VERSION, &swapChainDesc, &m_d3dSwapChain, &m_d3dDevice, &featureLevel,
+			&m_d3dDeviceContext);
 	if (FAILED(hr)) return -1;
 
 	// The Direct3D device and swap chain were successfully created..
@@ -169,7 +169,7 @@ int Context::InitDirectX() {
 	m_ProjectionMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), static_cast<float>(clientWidth) / static_cast<float>(clientHeight), 0.1f, 100.0f);
 	m_shaders->Update(Shaders::CB_Application, m_ProjectionMatrix);
 
-	m_camera = new Camera(DirectX::XMVectorSet(0, 0, -10, 1), DirectX::XMVectorSet(0, 0, 0, 1), DirectX::XMVectorSet(0, 1, 0, 0), DirectX::XMFLOAT2{ static_cast<float>(clientWidth / 2), static_cast<float>(clientHeight / 2 )});
+	m_camera = new Camera({ 0, 0, -10 }, { 0, 0, 0 }, { 0, 1, 0 }, DirectX::XMFLOAT2{ static_cast<float>(clientWidth / 2), static_cast<float>(clientHeight / 2) });
 
 	return 1;
 }

@@ -101,6 +101,9 @@
     <ClInclude Include="src\Engine\Input\Input.h">
       <Filter>Header Files\Engine\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Graphics\Util\DirectXMathConverter.h">
+      <Filter>Header Files\Engine\Graphics\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shaders\SimpleVertexShader.hlsl">

@@ -10,8 +10,11 @@ public:
 	bool Frame();
 
 	bool IsEscapePressed();
-	void GetMouseLocation(int&, int&);
+	bool IsLeftPressed();
+	bool IsRightPressed();
+	bool IsForwardPressed();
 
+	void GetMouseLocation(int&, int&);
 private:
 	bool ReadKeyboard();
 	bool ReadMouse();

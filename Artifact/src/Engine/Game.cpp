@@ -93,26 +93,26 @@ int Game::Run() {
 
 			Update(deltaTime);
 			m_Context.Frame();
+			m_Input.Frame();
 		}
 	}
 
 	return static_cast<int>(msg.wParam);
 }
 
+int prevMouseX, prevMouseY;
 void Game::Update(float deltaTime) {
+	int mouseX, mouseY;
+
 	static float angle = 0.0f;
-	if (GetAsyncKeyState(VK_LEFT)) {
-		angle += 5.0f * deltaTime;
-	}
-	else if (GetAsyncKeyState(VK_RIGHT)) {
-		angle -= 5.0f * deltaTime;
-	}
-
 	angle += 5.0f * deltaTime;
-
 	if (angle > 360) {
 		angle = 0.0f;
 	}
+
+
+	m_Input.GetMouseLocation(mouseX, mouseY);
+	std::cout << "Mouse Pos: " << mouseX << ", " << mouseY << std::endl;
 
 	DirectX::XMVECTOR rotationAxis = DirectX::XMVectorSet(0.1f, 0.1f, 0.1f, 0.1f);
 
@@ -124,24 +124,17 @@ void Game::Update(float deltaTime) {
 
 	DirectX::XMMATRIX rot = DirectX::XMMatrixRotationAxis(rotationAxis, -DirectX::XMConvertToRadians((angle * 10)));
 	DirectX::XMMATRIX matrix = DirectX::XMMatrixTranslation(10 * cos(angle), 10 * sin(angle), 0);
-	mesh1->SetNextMatrix(DirectX::XMMatrixMultiply(matrix, rot));
-
-//	for (Mesh* me : meshList) {
-//		rot = DirectX::XMMatrixRotationAxis(rotationAxis, DirectX::XMConvertToRadians((angle) * 250));
-//		matrix = DirectX::XMMatrixTranslation((me->GetPosition().x * cos(angle)) + me->GetPosition().x, (me->GetPosition().y * sin(angle)) + me->GetPosition().y, me->GetPosition().z);
-//
-//		me->SetNextMatrix(DirectX::XMMatrixMultiply(matrix, rot));
-//	}
+//	mesh1->SetNextMatrix(DirectX::XMMatrixMultiply(matrix, rot));
 
 	for (int i = 0; i < 50; i++) {
-		rot = DirectX::XMMatrixRotationAxis(rotationAxis, DirectX::XMConvertToRadians((angle) * 100));
+		rot = DirectX::XMMatrixRotationAxis(rotationAxis, DirectX::XMConvertToRadians((angle) * deltaTime));
 		matrix = DirectX::XMMatrixTranslation((meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x, (meshList.at(i)->GetPosition().y * sin(angle)) + meshList.at(i)->GetPosition().y, meshList.at(i)->GetPosition().z);
 
 		meshList.at(i)->SetNextMatrix(DirectX::XMMatrixMultiply(matrix, rot));
 	}
 
 	for (int i = 50; i < 100; i++) {
-		rot = DirectX::XMMatrixRotationAxis(rotationAxis, -DirectX::XMConvertToRadians((angle) * 100));
+		rot = DirectX::XMMatrixRotationAxis(rotationAxis, -DirectX::XMConvertToRadians((angle) * deltaTime));
 		matrix = DirectX::XMMatrixTranslation(-((meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x), -((meshList.at(i)->GetPosition().y * sin(angle)) + meshList.at(i)->GetPosition().y), meshList.at(i)->GetPosition().z);
 
 		meshList.at(i)->SetNextMatrix(DirectX::XMMatrixMultiply(matrix, rot));
