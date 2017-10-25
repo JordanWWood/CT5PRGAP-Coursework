@@ -16,12 +16,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmdLine,
 	freopen_s(&pCerr, "CONOUT$", "w", stderr);
 #endif
 
-	// Check for DirectXMath library support.
-	if (!XMVerifyCPUSupport()) {
-		MessageBox(nullptr, TEXT("Failed to verify DirectX Math library support."), TEXT("Error"), MB_OK);
-		return -1;
-	}
-
 	Game* game = new Game(g_EnableVSync, &hInstance, &cmdShow);
 	game->Init();
 

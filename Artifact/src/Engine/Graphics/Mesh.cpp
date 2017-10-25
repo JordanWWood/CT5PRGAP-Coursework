@@ -47,13 +47,9 @@ Mesh::Mesh(ID3D11Device* pD3DDevice, const std::vector<Shaders::VertexPosColor> 
 }
 
 Mesh::~Mesh() {
-	delete(m_d3dInputLayout);
-	delete(m_d3dVertexBuffer);
-	delete(m_d3dIndexBuffer);
-
-	m_d3dInputLayout = nullptr;
-	m_d3dVertexBuffer = nullptr;
-	m_d3dIndexBuffer = nullptr;
+	SafeRelease(m_d3dInputLayout);
+	SafeRelease(m_d3dVertexBuffer);
+	SafeRelease(m_d3dIndexBuffer);
 }
 
 void Mesh::Render(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext, 
@@ -81,7 +77,6 @@ Mesh* Mesh::LoadFromFile(ID3D11Device* device, std::string path, const DirectX::
 	if (!in) {
 		std::cerr << "Cannot open " << path << std::endl;
 		exit(1);
-
 	}
 	std::string line;
 	while (std::getline(in, line)) {

@@ -13,8 +13,8 @@ void Camera::Move(DirectX::XMFLOAT3 direction) {
 		XMMatrixTranslation(direction.x, direction.y, direction.z)));
 	m_FocusPoint = GMathVF(XMVector3Transform(GMathFV(m_FocusPoint),
 		XMMatrixTranslation(direction.x, direction.y, direction.z)));
-	m_UpDirection = GMathVF(XMVector3Transform(GMathFV(m_UpDirection),
-		XMMatrixTranslation(direction.x, direction.y, direction.z)));
+//	m_UpDirection = GMathVF(XMVector3Transform(GMathFV(m_UpDirection),
+//		XMMatrixTranslation(direction.x, direction.y, direction.z)));
 }
 
 void Camera::Rotate(float degrees, XMFLOAT3 axis) {
@@ -29,9 +29,9 @@ void Camera::Rotate(float degrees, XMFLOAT3 axis) {
 }
 
 void Camera::Update(Shaders* p_Shaders, Window* p_Window) {
-	//	RECT rect;
-	//	GetWindowRect(p_Window->GetWindowHandle(), &rect);
-	//	ClipCursor(&rect);
+	//RECT rect;
+	//GetWindowRect(p_Window->GetWindowHandle(), &rect);
+	//ClipCursor(&rect);
 
 	p_Shaders->Update(Shaders::CB_Frame, DirectX::XMMatrixLookAtLH(XMLoadFloat3(&m_EyePosition), XMLoadFloat3(&m_FocusPoint), XMLoadFloat3(&m_UpDirection)));
 }

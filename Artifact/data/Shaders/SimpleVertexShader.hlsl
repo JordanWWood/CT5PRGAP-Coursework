@@ -8,7 +8,7 @@ cbuffer PerFrame : register( b1 )
     matrix viewMatrix;
 }
 
-cbuffer PerObject : register( b2 )
+cbuffer PerObject : register( b2 ) 
 {
     matrix worldMatrix;
 }
@@ -17,15 +17,19 @@ struct AppData
 {
     float3 position : POSITION;
     float3 color: COLOR;
+//	float3 normal : NORMAL;
+//	float2 TexCoord : TEXCOORD;
 };
 
 struct VertexShaderOutput
 {
+	// TODO exploded texcoord
     float4 color : COLOR;
     float4 position : SV_POSITION;
 };
 
-VertexShaderOutput SimpleVertexShader( AppData IN ) {
+VertexShaderOutput SimpleVertexShader( AppData IN ) 
+{
     VertexShaderOutput OUT;
 
     matrix mvp = mul( projectionMatrix, mul( viewMatrix, worldMatrix ) );

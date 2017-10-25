@@ -53,7 +53,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>inc</AdditionalIncludeDirectories>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>ArtifactPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -129,6 +129,9 @@
       <VariableName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">g_SimpleVertexShader</VariableName>
       <HeaderFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">inc/SimpleVertexShader.h</HeaderFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

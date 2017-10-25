@@ -22,12 +22,11 @@ Context::~Context() {
 	SafeRelease(m_d3dDeviceContext);
 	SafeRelease(m_d3dDevice);
 
-	delete(m_camera);
-	delete(m_shaders);
-	delete(m_camera);
-
+	delete(m_camera);	
 	m_camera = NULL;
+	delete(m_shaders);
 	m_shaders = NULL;
+	delete(m_camera);
 	m_camera = NULL;
 }
 
@@ -70,11 +69,6 @@ int Context::InitDirectX() {
 	D3D_FEATURE_LEVEL featureLevels[] = {
 		D3D_FEATURE_LEVEL_11_1,
 		D3D_FEATURE_LEVEL_11_0,
-		D3D_FEATURE_LEVEL_10_1,
-		D3D_FEATURE_LEVEL_10_0,
-		D3D_FEATURE_LEVEL_9_3,
-		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1
 	};
 
 	// This will be the feature level that 
@@ -166,7 +160,7 @@ int Context::InitDirectX() {
 	m_shaders = new Shaders(m_d3dDevice, m_d3dDeviceContext);
 	if (!m_shaders->LoadShaders()) return -1;
 
-	m_ProjectionMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), static_cast<float>(clientWidth) / static_cast<float>(clientHeight), 0.1f, 100.0f);
+	m_ProjectionMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), static_cast<float>(clientWidth) / static_cast<float>(clientHeight), 0.1f, 1000.0f);
 	m_shaders->Update(Shaders::CB_Application, m_ProjectionMatrix);
 
 	m_camera = new Camera({ 0, 0, -10 }, { 0, 0, 0 }, { 0, 1, 0 }, DirectX::XMFLOAT2{ static_cast<float>(clientWidth / 2), static_cast<float>(clientHeight / 2) });

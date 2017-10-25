@@ -40,9 +40,6 @@
     <Filter Include="Header Files\Engine\Graphics\Utils">
       <UniqueIdentifier>{31be8d4e-b306-476d-84f1-699185a0701d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Graphics\Utils">
-      <UniqueIdentifier>{79da89a8-d246-40b0-a1ae-b6b0e78c7d64}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -112,5 +109,10 @@
     <FxCompile Include="data\Shaders\SimplePixelShader.hlsl">
       <Filter>Data\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

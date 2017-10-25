@@ -55,7 +55,7 @@ int Window::InitWindow() {
 	SetForegroundWindow(m_WindowHandle);
 	SetFocus(m_WindowHandle);
 
-//	ShowCursor(false);
+	//ShowCursor(false);
 	return 0;
 }
 

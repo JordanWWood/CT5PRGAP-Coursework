@@ -1,0 +1,7 @@
+Shaders:
+	Textures and lighting.
+
+Input:
+	Take a look at XInput over DirectInput.
+	Mouse input. GetWindowRect appears to resturn information about where the top left corner of the screen is.
+	People recommend having the mouse be super imposed as an object that is being rendered by directx. Perhaps something to persue
