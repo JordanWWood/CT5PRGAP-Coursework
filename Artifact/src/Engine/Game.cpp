@@ -37,7 +37,6 @@ Game::Game(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow) : m_Context(Con
                                                                    m_Input(Input()), m_HInstance(hInstance) {}
 
 Game::~Game() {
-	m_Input.Shutdown();
 }
 
 int Game::Init() {
@@ -51,7 +50,7 @@ int Game::Init() {
 		return false;
 	}
 
-	if (!m_Input.Initialize(*m_HInstance, m_Context.GetWindow()->GetWindowHandle(), g_WindowWidth, g_WindowHeight)) {
+	if (!m_Input.Initialize()) {
 		MessageBox(nullptr, TEXT("Could not initialize the input object."), TEXT("Error"), MB_OK);
 		return false;
 	}
@@ -92,24 +91,20 @@ int Game::Run() {
 
 			Update(deltaTime);
 			m_Context.Frame();
-			m_Input.Frame();
 		}
 	}
 
 	return static_cast<int>(msg.wParam);
 }
 
-int prevMouseX, prevMouseY;
 void Game::Update(float deltaTime) {
-	int mouseX, mouseY;
-	m_Input.GetMouseLocation(mouseX, mouseY);
-
-	std::cout << "Mouse position: " << mouseX << ", " << mouseY << std::endl;
 	static float angle = 0.0f;
 	angle += 5.0f * deltaTime;
 	if (angle > 360) {
 		angle = 0.0f;
 	}
+
+	UpdateMouse();
 
 	const int speed = 10;
 	if (GetAsyncKeyState('W')) m_Context.GetCamera()->Move(0, 0, speed * deltaTime);
@@ -135,4 +130,15 @@ void Game::Update(float deltaTime) {
 
 		meshList.at(i)->SetNextMatrix(DirectX::XMMatrixMultiply(translation, rot));
 	}
+}
+
+int prevMouseX, prevMouseY;
+void Game::UpdateMouse() {
+	RECT rect;
+	GetWindowRect(m_Context.GetWindow()->GetWindowHandle(), &rect);
+	int centerX = rect.left + (m_Context.GetWindow()->GetWidth() / 2);
+	int centerY = rect.top + (m_Context.GetWindow()->GetHeight() / 2);
+	std::cout << "Window Center: " << centerX << ", " << centerY << std::endl;
+
+
 }

@@ -34,11 +34,11 @@
     <Filter Include="Header Files\Engine\Input">
       <UniqueIdentifier>{5fcb8d66-84df-4734-8070-5faf0f1e7d4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Input">
-      <UniqueIdentifier>{3dc84761-5c21-44f6-9060-44c7369ba3e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\Graphics\Utils">
       <UniqueIdentifier>{31be8d4e-b306-476d-84f1-699185a0701d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Input">
+      <UniqueIdentifier>{cece164e-1703-4d82-9259-16d0213250cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +95,11 @@
     <ClInclude Include="src\Engine\Graphics\Camera.h">
       <Filter>Header Files\Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Input\Input.h">
-      <Filter>Header Files\Engine\Input</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine\Graphics\Util\DirectXMathConverter.h">
       <Filter>Header Files\Engine\Graphics\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Input\Input.h">
+      <Filter>Header Files\Engine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="todo.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
 </Project>

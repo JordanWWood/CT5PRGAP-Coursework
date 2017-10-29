@@ -28,10 +28,6 @@ void Camera::Rotate(float degrees, XMFLOAT3 axis) {
 	m_UpDirection = GMathVF(GMathFV(m_EyePosition) + GMathFV(look_at_up));
 }
 
-void Camera::Update(Shaders* p_Shaders, Window* p_Window) {
-	//RECT rect;
-	//GetWindowRect(p_Window->GetWindowHandle(), &rect);
-	//ClipCursor(&rect);
-
+void Camera::Update(Shaders* p_Shaders, Window* p_Window) const {
 	p_Shaders->Update(Shaders::CB_Frame, DirectX::XMMatrixLookAtLH(XMLoadFloat3(&m_EyePosition), XMLoadFloat3(&m_FocusPoint), XMLoadFloat3(&m_UpDirection)));
 }

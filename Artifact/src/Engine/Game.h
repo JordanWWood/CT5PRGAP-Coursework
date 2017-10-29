@@ -1,6 +1,6 @@
 #pragma once
-#include "Input/Input.h"
 #include "Graphics/Context.h"
+#include "Input/Input.h"
 
 // High level interaction with rendering for simple and effective interaction. Creating a DirectX context for the game.
 class Game {
@@ -12,6 +12,7 @@ public:
 	int Run();
 
 	void Update(float deltaTime);
+	void UpdateMouse();
 private:
 	class Context m_Context;
 	Input m_Input;

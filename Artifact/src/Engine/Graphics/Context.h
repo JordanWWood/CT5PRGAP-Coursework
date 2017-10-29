@@ -9,6 +9,7 @@ class Mesh;
 class Context
 {
 public:
+	Context();
 	Context(HINSTANCE *p_HInstance, int *p_cmdShow, LONG p_WindowWidth, LONG p_WindowHeight, LPCSTR p_WindowName, BOOL p_vSync);
 	~Context();
 
