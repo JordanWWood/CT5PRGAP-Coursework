@@ -40,13 +40,13 @@
     <Filter Include="Source Files\Engine\Input">
       <UniqueIdentifier>{cece164e-1703-4d82-9259-16d0213250cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Graphics\Lighting">
+      <UniqueIdentifier>{7f8978ba-5441-4257-9a66-02d551dc1ab5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine\Game.cpp">
-      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Graphics\Window.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
@@ -69,13 +69,16 @@
     <ClCompile Include="src\Engine\Input\Input.cpp">
       <Filter>Source Files\Engine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\GameParent.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Engine\Game.h">
-      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Graphics\Context.h">
       <Filter>Header Files\Engine\Graphics</Filter>
@@ -100,6 +103,18 @@
     </ClInclude>
     <ClInclude Include="src\Engine\Input\Input.h">
       <Filter>Header Files\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Input\Events.h">
+      <Filter>Header Files\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Input\KeyCodes.h">
+      <Filter>Header Files\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\GameParent.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestGame.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

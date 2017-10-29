@@ -1,6 +1,6 @@
 #pragma once
 
-// Creation and managment of m_shaders
+// Creation and managment of shaders
 class Shaders
 {
 public:

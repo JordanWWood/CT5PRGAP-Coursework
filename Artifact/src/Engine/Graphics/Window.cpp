@@ -1,8 +1,8 @@
 #include "ArtifactPCH.h"
+
 #include "Window.h"
 #include "resource.h"
-
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+#include "../GameParent.h"
 
 Window::Window(LONG p_WindowWidth, LONG p_WindowHeight, LPCSTR p_WindowName, HINSTANCE *p_HInstance, int *p_CmdShow) {
 	m_WindowWidth = p_WindowWidth;
@@ -24,11 +24,11 @@ Window::~Window() {
 /**
 * Initialize the application Window.
 */
-int Window::InitWindow() {
+int Window::InitWindow(WNDPROC WndProc) {
 	WNDCLASSEX wndClass = { 0 };
 	wndClass.cbSize = sizeof(WNDCLASSEX);
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
-	wndClass.lpfnWndProc = &WndProc;
+	wndClass.lpfnWndProc = WndProc;
 	wndClass.hInstance = *m_hInstance;
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndClass.hIcon = LoadIcon(*m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
@@ -56,24 +56,5 @@ int Window::InitWindow() {
 	SetFocus(m_WindowHandle);
 
 	//ShowCursor(false);
-	return 0;
-}
-
-LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	PAINTSTRUCT paintStruct;
-	HDC hDC;
-
-	switch (message) {
-	case WM_PAINT: {
-		hDC = BeginPaint(hwnd, &paintStruct);
-		EndPaint(hwnd, &paintStruct);
-	}
-				   break;
-	case WM_DESTROY: { PostQuitMessage(0); }
-					 break;
-	default:
-		return DefWindowProc(hwnd, message, wParam, lParam);
-	}
-
 	return 0;
 }

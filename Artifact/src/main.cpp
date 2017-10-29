@@ -1,5 +1,5 @@
 #include <ArtifactPCH.h>
-#include "Engine/Game.h"
+#include "TestGame.h"
 
 using namespace DirectX;
 
@@ -16,7 +16,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE prevInstance, LPWSTR cmdLine,
 	freopen_s(&pCerr, "CONOUT$", "w", stderr);
 #endif
 
-	Game* game = new Game(g_EnableVSync, &hInstance, &cmdShow);
+	TestGame* game = new TestGame(g_EnableVSync, &hInstance, &cmdShow);
 	game->Init();
 
 	return game->Run();

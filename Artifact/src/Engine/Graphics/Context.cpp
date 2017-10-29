@@ -5,9 +5,9 @@
 
 
 Context::Context(HINSTANCE* hInstance, int* cmdShow, const LONG windowWidth, const LONG windowHeight,
-                 const LPCSTR windowName, const BOOL vSync) {
+                 const LPCSTR windowName, const BOOL vSync, WNDPROC wndproc) {
 	m_window = new Window(windowWidth, windowHeight, windowName, hInstance, cmdShow);
-	m_window->InitWindow();
+	m_window->InitWindow(wndproc);
 
 	m_EnableVSync = vSync;
 }
@@ -31,9 +31,10 @@ Context::~Context() {
 }
 
 /**
-* Initialize the Game device and swap chain.
+* Initialize the GameParent device and swap chain.
 */
 int Context::InitDirectX() {
+
 	// A Window handle must have been created already.
 	assert(m_window->GetWindowHandle() != 0);
 
@@ -213,7 +214,7 @@ DXGI_RATIONAL Context::QueryRefreshRate(UINT screenWidth, UINT screenHeight, BOO
 		IDXGIOutput* adapterOutput;
 		DXGI_MODE_DESC* displayModeList;
 
-		// Create a Game graphics interface factory.
+		// Create a GameParent graphics interface factory.
 		HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
 		if (FAILED(hr)) {
 			MessageBox(nullptr,

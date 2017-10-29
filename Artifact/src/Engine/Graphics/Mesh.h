@@ -2,6 +2,33 @@
 #include "Shaders.h"
 #include <vector>
 
+//// Vertex struct holding position, normal vector, and texture mapping information.
+//struct VertexPositionNormalTexture
+//{
+//	VertexPositionNormalTexture()
+//	{ }
+//
+//	VertexPositionNormalTexture(const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& normal, const DirectX::XMFLOAT2& textureCoordinate)
+//		: position(position),
+//		normal(normal),
+//		textureCoordinate(textureCoordinate)
+//	{ }
+//
+//	VertexPositionNormalTexture(DirectX::FXMVECTOR position, DirectX::FXMVECTOR normal, DirectX::FXMVECTOR textureCoordinate)
+//	{
+//		XMStoreFloat3(&this->position, position);
+//		XMStoreFloat3(&this->normal, normal);
+//		XMStoreFloat2(&this->textureCoordinate, textureCoordinate);
+//	}
+//
+//	DirectX::XMFLOAT3 position;
+//	DirectX::XMFLOAT3 normal;
+//	DirectX::XMFLOAT2 textureCoordinate;
+//
+//	static const int InputElementCount = 3;
+//	static const D3D11_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+//};
+
 class Mesh
 {
 public:

@@ -85,7 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ArtifactPCH.cpp" />
-    <ClCompile Include="src\Engine\Game.cpp" />
+    <ClCompile Include="src\Engine\GameParent.cpp" />
     <ClCompile Include="src\Engine\Graphics\Camera.cpp" />
     <ClCompile Include="src\Engine\Graphics\Context.cpp" />
     <ClCompile Include="src\Engine\Graphics\Mesh.cpp" />
@@ -93,18 +93,22 @@
     <ClCompile Include="src\Engine\Graphics\Window.cpp" />
     <ClCompile Include="src\Engine\Input\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\TestGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\ArtifactPCH.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="src\Engine\Game.h" />
+    <ClInclude Include="src\Engine\GameParent.h" />
     <ClInclude Include="src\Engine\Graphics\Camera.h" />
     <ClInclude Include="src\Engine\Graphics\Context.h" />
     <ClInclude Include="src\Engine\Graphics\Mesh.h" />
     <ClInclude Include="src\Engine\Graphics\Shaders.h" />
     <ClInclude Include="src\Engine\Graphics\Util\DirectXMathConverter.h" />
     <ClInclude Include="src\Engine\Graphics\Window.h" />
+    <ClInclude Include="src\Engine\Input\Events.h" />
     <ClInclude Include="src\Engine\Input\Input.h" />
+    <ClInclude Include="src\Engine\Input\KeyCodes.h" />
+    <ClInclude Include="src\TestGame.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shaders\SimplePixelShader.hlsl">
