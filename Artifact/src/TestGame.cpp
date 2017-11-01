@@ -1,20 +1,22 @@
 #include "ArtifactPCH.h"
 #include "TestGame.h"
 #include "Engine/Graphics/Mesh.h"
+#include "TestInput.h"
 
 std::vector<Mesh*> meshList;
 Mesh* mesh = nullptr;
 
+using namespace DirectX;
 // Swap with loaded mesh
 std::vector<Shaders::VertexPosColor> g_Vertices = {
-	{ DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 0
-	{ DirectX::XMFLOAT3(-1.0f, 1.0f, -1.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 1
-	{ DirectX::XMFLOAT3(1.0f, 1.0f, -1.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 2
-	{ DirectX::XMFLOAT3(1.0f, -1.0f, -1.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 3
-	{ DirectX::XMFLOAT3(-1.0f, -1.0f, 1.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 4
-	{ DirectX::XMFLOAT3(-1.0f, 1.0f, 1.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 1.0f) }, // 5
-	{ DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f), DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 6
-	{ DirectX::XMFLOAT3(1.0f, -1.0f, 1.0f), DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f) } // 7
+	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 0
+	{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 1
+	{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 2
+	{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 3
+	{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 4
+	{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }, // 5
+	{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 6
+	{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) } // 7
 };
 
 std::vector<WORD> g_Indicies = {
@@ -26,7 +28,8 @@ std::vector<WORD> g_Indicies = {
 	4, 0, 3, 4, 3, 7
 };
 
-TestGame::TestGame(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow): GameParent(enableVSync, hInstance, cmdShow) {}
+TestInput input = TestInput();
+TestGame::TestGame(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow): GameParent(enableVSync, hInstance, cmdShow, &input) {}
 
 TestGame::~TestGame() {}
 
@@ -34,6 +37,8 @@ TestGame::~TestGame() {}
 * The main application loop.
 */
 int TestGame::Run() {
+	input.SetCamera(m_Context.GetCamera());
+
 	for (int i = 0; i < 100; i++) {
 		float x = rand() % 100 - 50;
 		float y = rand() % 100 - 50;
@@ -57,27 +62,27 @@ void TestGame::Update(float deltaTime) {
 	if (GetAsyncKeyState('S')) m_Context.GetCamera()->Move(0, 0, -(speed * deltaTime));
 	if (GetAsyncKeyState('D')) m_Context.GetCamera()->Move(speed * deltaTime, 0, 0);
 
-	DirectX::XMVECTOR rotationAxis = DirectX::XMVectorSet(0.1f, 0.1f, 0.1f, 0.1f);
+	XMVECTOR rotationAxis = XMVectorSet(0.1f, 0.1f, 0.1f, 0.1f);
 
-	DirectX::XMMATRIX rot = DirectX::XMMatrixRotationAxis(rotationAxis, -DirectX::XMConvertToRadians((angle * 10)));
-	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(10 * cos(angle), 10 * sin(angle), 0);
+	XMMATRIX rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians((angle * 10)));
+	XMMATRIX translation = XMMatrixTranslation(10 * cos(angle), 10 * sin(angle), 0);
 
 	for (int i = 0; i < 50; i++) {
-		rot = DirectX::XMMatrixRotationAxis(rotationAxis, DirectX::XMConvertToRadians((angle) * deltaTime));
-		translation = DirectX::XMMatrixTranslation(
+		rot = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians((angle) * deltaTime));
+		translation = XMMatrixTranslation(
 			(meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x,
 			(meshList.at(i)->GetPosition().y * sin(angle)) + meshList.at(i)->GetPosition().y, meshList.at(i)->GetPosition().z);
 
-		meshList.at(i)->SetNextMatrix(DirectX::XMMatrixMultiply(translation, rot));
+		meshList.at(i)->SetNextMatrix(XMMatrixMultiply(translation, rot));
 	}
 
 	for (int i = 50; i < 100; i++) {
-		rot = DirectX::XMMatrixRotationAxis(rotationAxis, -DirectX::XMConvertToRadians((angle) * deltaTime));
-		translation = DirectX::XMMatrixTranslation(
+		rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians((angle) * deltaTime));
+		translation = XMMatrixTranslation(
 			-((meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x),
 			-((meshList.at(i)->GetPosition().y * sin(angle)) + meshList.at(i)->GetPosition().y),
 			meshList.at(i)->GetPosition().z);
 
-		meshList.at(i)->SetNextMatrix(DirectX::XMMatrixMultiply(translation, rot));
+		meshList.at(i)->SetNextMatrix(XMMatrixMultiply(translation, rot));
 	}
 }

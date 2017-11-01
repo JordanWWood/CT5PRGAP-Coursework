@@ -11,13 +11,11 @@ LPCSTR g_WindowName = "Game";
 Input* mainInput = new Input();
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-GameParent::GameParent(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow) : m_Context(Context(
+GameParent::GameParent(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow, Input* input) : m_Context(Context(
 	                                                                               hInstance, cmdShow, g_WindowWidth,
 	                                                                               g_WindowHeight, g_WindowName,
-	                                                                               enableVSync, &WndProc)), m_Input(*mainInput),
-                                                                               m_HInstance(hInstance) {
-	mainInput = &m_Input;
-}
+	                                                                               enableVSync, &WndProc)), m_Input(input),
+                                                                               m_HInstance(hInstance) {}
 
 GameParent::~GameParent() { delete(mainInput); }
 
@@ -50,7 +48,7 @@ int GameParent::Run() {
 }
 
 int GameParent::Init() {
-	mainInput = &m_Input;
+	mainInput = m_Input;
 
 	if (!DirectX::XMVerifyCPUSupport()) {
 		MessageBox(nullptr, TEXT("Failed to verify GameParent Math library support."), TEXT("Error"), MB_OK);
@@ -62,7 +60,7 @@ int GameParent::Init() {
 		return false;
 	}
 
-	if (!m_Input.Initialize()) {
+	if (!m_Input->Initialize()) {
 		MessageBox(nullptr, TEXT("Could not initialize the input object."), TEXT("Error"), MB_OK);
 		return false;
 	}
@@ -175,8 +173,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		// The distance the mouse wheel is rotated.
 		// A positive value indicates the wheel was rotated to the right.
 		// A negative value indicates the wheel was rotated to the left.
-		float zDelta = ((int)(short)HIWORD(wParam)) / (float)WHEEL_DELTA;
-		short keyStates = (short)LOWORD(wParam);
+		float zDelta = int(short(HIWORD(wParam))) / float(WHEEL_DELTA);
+		short keyStates = short(LOWORD(wParam));
 
 		bool lButton = (keyStates & MK_LBUTTON) != 0;
 		bool rButton = (keyStates & MK_RBUTTON) != 0;
@@ -193,8 +191,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		clientToScreenPoint.y = y;
 		ScreenToClient(hwnd, &clientToScreenPoint);
 
-		MouseWheelEventArgs mouseWheelEventArgs(zDelta, lButton, mButton, rButton, control, shift, (int)clientToScreenPoint.x,
-		                                        (int)clientToScreenPoint.y);
+		MouseWheelEventArgs mouseWheelEventArgs(zDelta, lButton, mButton, rButton, control, shift, int(clientToScreenPoint.x),
+		                                        int(clientToScreenPoint.y));
 		mainInput->OnMouseWheel(mouseWheelEventArgs);
 	}
 		break;

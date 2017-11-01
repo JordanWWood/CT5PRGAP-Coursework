@@ -18,12 +18,12 @@ void Camera::Move(DirectX::XMFLOAT3 direction) {
 }
 
 void Camera::Rotate(float degrees, XMFLOAT3 axis) {
-	DirectX::XMFLOAT3 look_at_target = GMathVF(GMathFV(m_FocusPoint) - GMathFV(m_EyePosition));
-	DirectX::XMFLOAT3 look_at_up = GMathVF(GMathFV(m_UpDirection) - GMathFV(m_EyePosition));
-	look_at_target = GMathVF(DirectX::XMVector3Transform(GMathFV(look_at_target),
-		DirectX::XMMatrixRotationAxis(GMathFV(axis), DirectX::XMConvertToRadians(degrees))));
+	XMFLOAT3 look_at_target = GMathVF(GMathFV(m_FocusPoint) - GMathFV(m_EyePosition));
+	XMFLOAT3 look_at_up = GMathVF(GMathFV(m_UpDirection) - GMathFV(m_EyePosition));
+	look_at_target = GMathVF(XMVector3Transform(GMathFV(look_at_target),
+		XMMatrixRotationAxis(GMathFV(axis), XMConvertToRadians(degrees))));
 	look_at_up = GMathVF(XMVector3Transform(GMathFV(look_at_up),
-		XMMatrixRotationAxis(GMathFV(axis), DirectX::XMConvertToRadians(degrees))));
+		XMMatrixRotationAxis(GMathFV(axis), XMConvertToRadians(degrees))));
 	m_FocusPoint = GMathVF(GMathFV(m_EyePosition) + GMathFV(look_at_target));
 	m_UpDirection = GMathVF(GMathFV(m_EyePosition) + GMathFV(look_at_up));
 }

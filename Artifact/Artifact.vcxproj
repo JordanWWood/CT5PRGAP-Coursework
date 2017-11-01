@@ -94,6 +94,7 @@
     <ClCompile Include="src\Engine\Input\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\TestGame.cpp" />
+    <ClCompile Include="src\TestInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\ArtifactPCH.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="src\Engine\Input\Input.h" />
     <ClInclude Include="src\Engine\Input\KeyCodes.h" />
     <ClInclude Include="src\TestGame.h" />
+    <ClInclude Include="src\TestInput.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shaders\SimplePixelShader.hlsl">
