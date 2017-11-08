@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Engine\Graphics\Lighting">
       <UniqueIdentifier>{7f8978ba-5441-4257-9a66-02d551dc1ab5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\Textures">
+      <UniqueIdentifier>{3f46404d-12f4-4bfa-9b34-d40740953fd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -135,5 +138,13 @@
     <Text Include="todo.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="data\Textures\grid_texture.png">
+      <Filter>Data\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -14,10 +14,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 GameParent::GameParent(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow, Input* input) : m_Context(Context(
 	                                                                               hInstance, cmdShow, g_WindowWidth,
 	                                                                               g_WindowHeight, g_WindowName,
-	                                                                               enableVSync, &WndProc)), m_Input(input),
-                                                                               m_HInstance(hInstance) {}
+	                                                                               enableVSync, &WndProc)), m_Input(input), 
+																				   m_HInstance(hInstance) {
+	m_EffectFactory = std::unique_ptr<DirectX::EffectFactory>(new DirectX::EffectFactory(m_Context.GetDevice->Get()));
+	m_EffectFactory->SetDirectory(L"..\\data\\");
+}
 
-GameParent::~GameParent() { delete(mainInput); }
+GameParent::~GameParent() {
+	delete(mainInput); 
+	mainInput = nullptr;
+	delete(m_Input);
+	m_Input = nullptr;
+	delete(m_HInstance);
+	m_HInstance = nullptr;
+}
 
 int GameParent::Run() {
 	MSG msg = {nullptr};

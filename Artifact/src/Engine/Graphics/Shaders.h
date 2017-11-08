@@ -16,11 +16,31 @@ public:
 		CB_Object,
 		NumConstantBuffers
 	};	
+
+	// A structure to hold the data for a per-object constant buffer
+	// defined in the vertex shader.
+	struct PerFrameConstantBufferData {
+		XMMATRIX ViewProjectionMatrix;
+	};
+
+	// This structure is used in the simple vertex shader.
+	struct PerObjectConstantBufferData {
+		XMMATRIX WorldMatrix;
+		XMMATRIX InverseTransposeWorldMatrix;
+		XMMATRIX WorldViewProjectionMatrix;
+	};
 	
-	// Vertex data for a colored cube.
+	// Vertex data for a Coloured Object.
 	struct VertexPosColor {
 		DirectX::XMFLOAT3 Position;
 		DirectX::XMFLOAT3 Color;
+	};
+
+	// Vertex data for a Textured Object
+	struct VertexPosNormTex {
+		XMFLOAT3 Position;
+		XMFLOAT3 Normal;
+		XMFLOAT2 Tex0;
 	};
 
 	void Update(ConstantBuffer p_CB, DirectX::XMMATRIX p_Matrix);

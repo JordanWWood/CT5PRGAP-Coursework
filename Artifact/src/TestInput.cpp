@@ -14,7 +14,7 @@ void TestInput::OnKeyPressed(const KeyEventArgs& e) {
 		case 'W': m_mainCamera->Move(0, 0, speed * m_deltatime); break;
 		case 'A': m_mainCamera->Move(-(speed * m_deltatime), 0, 0); break;
 		case 'D': m_mainCamera->Move(speed * m_deltatime, 0, 0); break;
-		case VK_ESCAPE: 
+		case VK_ESCAPE: break;
 	}
 }
 void TestInput::OnKeyReleased(const KeyEventArgs& e) {}

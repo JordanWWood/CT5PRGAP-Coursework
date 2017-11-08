@@ -8,6 +8,9 @@
 #include <DirectXColors.h>
 #include <dinput.h>
 
+// DirectX ToolKit includes
+#include "Effects.h"
+
 // STL includes
 #include <algorithm>
 #include <iostream>

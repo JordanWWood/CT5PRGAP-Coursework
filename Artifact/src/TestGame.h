@@ -9,5 +9,7 @@ public:
 
 	int Run() override;
 	void Update(float deltaTime) override;
+
+	ID3D11ShaderResourceView* m_Texture = nullptr;
 };
 

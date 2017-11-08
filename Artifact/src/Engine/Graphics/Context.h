@@ -27,6 +27,8 @@ public:
 
 	Shaders* GetShaders() const { return m_shaders; }
 	Camera* GetCamera() const { return m_camera; }
+	ID3D11Device* GetDevice() const { return m_d3dDevice; }
+	ID3D11DeviceContext* GetDeviceContext() const { return m_d3dDeviceContext; }
 private:
 	Window* m_window = nullptr;
 	Shaders* m_shaders = nullptr;
@@ -50,6 +52,8 @@ private:
 	ID3D11DepthStencilState* m_d3dDepthStencilState = nullptr;
 	// Define the functionality of the rasterizer stage.
 	ID3D11RasterizerState* m_d3dRasterizerState = nullptr;
+	// Define the functionality of the sampler.
+	ID3D11SamplerState* m_d3dSamplerState = nullptr;
 	D3D11_VIEWPORT m_Viewport = { 0 };
 
 	DirectX::XMMATRIX m_ViewMatrix;

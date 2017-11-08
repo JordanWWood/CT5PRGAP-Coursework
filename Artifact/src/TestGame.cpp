@@ -39,6 +39,13 @@ TestGame::~TestGame() {}
 int TestGame::Run() {
 	input.SetCamera(m_Context.GetCamera());
 
+	try {
+		GameParent::GetEffectFactory()->CreateTexture(L"Textures\\grid_texture.png", m_Context.GetDeviceContext.Get(), &m_DirectXTexture);
+	} catch (std::exception&) {
+		MessageBoxA(m_Context.GetWindow.GetWindow(), "Failed to load texture.", "Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+
 	for (int i = 0; i < 1000; i++) {
 		const float x = rand() % 100 - 50;
 		const float y = rand() % 100 - 50;
@@ -61,7 +68,7 @@ void TestGame::Update(const float deltaTime) {
 	XMMATRIX rot;
 	XMMATRIX translation;
 
-	for (int i = 0; i < 50; i++) {
+	for (int i = 0; i < 499; i++) {
 		rot = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle * deltaTime));
 		translation = XMMatrixTranslation(
 			(meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x,
@@ -70,7 +77,7 @@ void TestGame::Update(const float deltaTime) {
 		meshList.at(i)->SetNextMatrix(XMMatrixMultiply(translation, rot));
 	}
 
-	for (int i = 50; i < 1000; i++) {
+	for (int i = 500; i < 1000; i++) {
 		rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians(angle * deltaTime));
 		translation = XMMatrixTranslation(
 			-((meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x),
