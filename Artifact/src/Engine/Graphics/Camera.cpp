@@ -17,7 +17,7 @@ void Camera::Move(DirectX::XMFLOAT3 direction) {
 //		XMMatrixTranslation(direction.x, direction.y, direction.z)));
 }
 
-void Camera::Rotate(float degrees, XMFLOAT3 axis) {
+void Camera::Rotate(float degrees, XMFLOAT3 axis) {	
 	XMFLOAT3 look_at_target = GMathVF(GMathFV(m_FocusPoint) - GMathFV(m_EyePosition));
 	XMFLOAT3 look_at_up = GMathVF(GMathFV(m_UpDirection) - GMathFV(m_EyePosition));
 	look_at_target = GMathVF(XMVector3Transform(GMathFV(look_at_target),

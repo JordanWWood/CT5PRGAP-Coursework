@@ -2,11 +2,8 @@
 #include "Engine/Input/Input.h"
 #include "Engine/Graphics/Camera.h"
 
-class TestInput : public Input
-{
+class TestInput : public Input {
 public:
-	typedef Input base;
-
 	// Findout about passable methods or identify a better way to implement input
 	TestInput(Camera* camera = nullptr);
 	~TestInput();
@@ -25,8 +22,7 @@ private:
 	Camera* m_mainCamera;
 };
 
-inline DirectX::XMINT2 operator-(const DirectX::XMINT2& x0, const DirectX::XMINT2& x1)
-{
+inline DirectX::XMINT2 operator-(const DirectX::XMINT2& x0, const DirectX::XMINT2& x1) {
 	return DirectX::XMINT2(x0.x - x1.x, x0.y - x1.y);
 }
 

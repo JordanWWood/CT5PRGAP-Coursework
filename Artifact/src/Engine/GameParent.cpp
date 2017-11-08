@@ -23,7 +23,7 @@ int GameParent::Run() {
 	MSG msg = {nullptr};
 
 	static DWORD previousTime = timeGetTime();
-	static const float targetFramerate = 30.0f;
+	static const float targetFramerate = 60.0f;
 	static const float maxTimeStep = 1.0f / targetFramerate;
 
 	while (msg.message != WM_QUIT) {
@@ -39,6 +39,8 @@ int GameParent::Run() {
 			// Cap the delta time to the max time step
 			deltaTime = std::min<float>(deltaTime, maxTimeStep);
 
+			// Set deltatime in the main input class
+			mainInput->SetDeltaTime(deltaTime);
 			Update(deltaTime);
 			m_Context.Frame();
 		}
@@ -57,11 +59,6 @@ int GameParent::Init() {
 
 	if (!m_Context.InitDirectX()) {
 		MessageBox(nullptr, TEXT("Could not initialize DirectX."), TEXT("Error"), MB_OK);
-		return false;
-	}
-
-	if (!m_Input->Initialize()) {
-		MessageBox(nullptr, TEXT("Could not initialize the input object."), TEXT("Error"), MB_OK);
 		return false;
 	}
 
