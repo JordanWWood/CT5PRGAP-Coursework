@@ -2,37 +2,15 @@
 #include "Shaders.h"
 #include <vector>
 
-//// Vertex struct holding position, normal vector, and texture mapping information.
-//struct VertexPositionNormalTexture
-//{
-//	VertexPositionNormalTexture()
-//	{ }
-//
-//	VertexPositionNormalTexture(const DirectX::XMFLOAT3& position, const DirectX::XMFLOAT3& normal, const DirectX::XMFLOAT2& textureCoordinate)
-//		: position(position),
-//		normal(normal),
-//		textureCoordinate(textureCoordinate)
-//	{ }
-//
-//	VertexPositionNormalTexture(DirectX::FXMVECTOR position, DirectX::FXMVECTOR normal, DirectX::FXMVECTOR textureCoordinate)
-//	{
-//		XMStoreFloat3(&this->position, position);
-//		XMStoreFloat3(&this->normal, normal);
-//		XMStoreFloat2(&this->textureCoordinate, textureCoordinate);
-//	}
-//
-//	DirectX::XMFLOAT3 position;
-//	DirectX::XMFLOAT3 normal;
-//	DirectX::XMFLOAT2 textureCoordinate;
-//
-//	static const int InputElementCount = 3;
-//	static const D3D11_INPUT_ELEMENT_DESC InputElements[InputElementCount];
-//};
-
 class Mesh
 {
 public:
-	Mesh(ID3D11Device* pD3DDevice, const std::vector<Shaders::VertexPosColor> pVertex, const std::vector<WORD> pIndicies, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale);
+	struct InstanceData {
+		DirectX::XMMATRIX WorldMatrix;
+		DirectX::XMMATRIX InverseTransposeWorldMatrix;
+	};
+
+	Mesh(ID3D11Device* pD3DDevice, const std::vector<Shaders::VertexPosNormTex> pVertex, const std::vector<WORD> pIndicies, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale);
 	~Mesh();
 
 	void Render(ID3D11Device* m_d3dDevice, ID3D11DeviceContext* m_d3dDeviceContext,
@@ -41,6 +19,8 @@ public:
 
 	static Mesh* LoadFromFile(ID3D11Device* device, std::string path, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale);
 
+	HRESULT CreateInstanceBuffer(ID3D11Device* device, uint32_t numInstances, InstanceData* instanceData);
+
 	void Move(float x, float y, float z) { Move({ x, y, z }); }
 	void Move(DirectX::XMFLOAT3 vec);
 	void Rotate(float x, float y, float z) { Rotate({ x, y, z }); }
@@ -48,23 +28,27 @@ public:
 	void Scale(float x, float y, float z) { Scale({ x, y, z }); }
 	void Scale(DirectX::XMFLOAT3 vec);
 
-	std::vector<Shaders::VertexPosColor> GetVertices() const { return m_Vertices; }
+	std::vector<Shaders::VertexPosNormTex> GetVertices() const { return m_Vertices; }
 	std::vector<WORD> GetIndicies() const { return m_Indicies; }
 
 	DirectX::XMFLOAT3 GetPosition() const { return m_position; }
 	DirectX::XMFLOAT3 GetRotation() const { return m_rotation; }
 	DirectX::XMFLOAT3 GetScale() const { return m_scale; }
+	bool IsInstanced() const { return isInstanced; }
 
 	void SetNextMatrix(DirectX::XMMATRIX pMatrix) { m_nextMatrix = pMatrix; }
 private:
 	void CalculateNextMatrix();
+	bool isInstanced = false;
 
-	std::vector<Shaders::VertexPosColor> m_Vertices;
+	std::vector<Shaders::VertexPosNormTex> m_Vertices;
 	std::vector<WORD> m_Indicies;
 
 	ID3D11InputLayout* m_d3dInputLayout = nullptr;
 	ID3D11Buffer* m_d3dVertexBuffer = nullptr;
 	ID3D11Buffer* m_d3dIndexBuffer = nullptr;
+
+	ID3D11Buffer* m_d3dInstanceBuffer = nullptr;
 
 	DirectX::XMMATRIX m_nextMatrix;
 

@@ -21,7 +21,7 @@ public:
 	void Present();
 	void Frame();
 
-	Mesh* CreateMesh(const std::vector<Shaders::VertexPosColor> vertex, const std::vector<WORD> indices, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale);
+	Mesh* CreateMesh(const std::vector<Shaders::VertexPosNormTex> vertex, const std::vector<WORD> indices, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale);
 	void RenderMesh(Mesh* mesh);
 	void DeleteMesh(Mesh* mesh);
 

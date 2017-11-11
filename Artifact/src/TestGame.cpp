@@ -8,15 +8,15 @@ Mesh* mesh = nullptr;
 
 using namespace DirectX;
 // Swap with loaded mesh
-std::vector<Shaders::VertexPosColor> g_Vertices = {
-	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },  // 0
-	{ XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(1.0f, 1.0f, 0.0f) },  // 1
-	{ XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f) },  // 2
-	{ XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(0.0f, 1.0f, 1.0f) },  // 3
-	{ XMFLOAT3(-1.0f, -1.0f, 1.0f),  XMFLOAT3(1.0f, 1.0f, 1.0f) },  // 4
-	{ XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(1.0f, 0.0f, 1.0f) },  // 5
-	{ XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(0.0f, 0.0f, 1.0f) },  // 6
-	{ XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(0.0f, 0.0f, 0.0f) }   // 7
+std::vector<Shaders::VertexPosNormTex> g_Vertices = {
+	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT2(0.0f, 0.0f) },  // 0
+	{ XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 0.0f) },  // 1
+	{ XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 1.0f) },  // 2
+	{ XMFLOAT3(1.0f, -1.0f, -1.0f),  XMFLOAT3(0.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },  // 3
+	{ XMFLOAT3(-1.0f, -1.0f, 1.0f),  XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },  // 4
+	{ XMFLOAT3(-1.0f, 1.0f, 1.0f),   XMFLOAT3(1.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },  // 5
+	{ XMFLOAT3(1.0f, 1.0f, 1.0f),    XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },  // 6
+	{ XMFLOAT3(1.0f, -1.0f, 1.0f),   XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 1.0f) }   // 7
 };
 
 std::vector<WORD> g_Indicies = {
@@ -40,9 +40,9 @@ int TestGame::Run() {
 	input.SetCamera(m_Context.GetCamera());
 
 	try {
-		GameParent::GetEffectFactory()->CreateTexture(L"Textures\\grid_texture.png", m_Context.GetDeviceContext.Get(), &m_DirectXTexture);
+		m_EffectFactory->CreateTexture(L"Textures\\grid_texture.png", m_Context.GetDeviceContext(), &m_Texture);
 	} catch (std::exception&) {
-		MessageBoxA(m_Context.GetWindow.GetWindow(), "Failed to load texture.", "Error", MB_OK | MB_ICONERROR);
+		MessageBoxA(m_Context.GetWindow()->GetWindowHandle(), "Failed to load texture.", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 

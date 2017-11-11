@@ -29,5 +29,5 @@ void Camera::Rotate(float degrees, XMFLOAT3 axis) {
 }
 
 void Camera::Update(Shaders* p_Shaders, Window* p_Window) const {
-	p_Shaders->Update(Shaders::CB_Frame, DirectX::XMMatrixLookAtLH(XMLoadFloat3(&m_EyePosition), XMLoadFloat3(&m_FocusPoint), XMLoadFloat3(&m_UpDirection)));
+	p_Shaders->Update(Shaders::CB_Frame, DirectX::XMMatrixLookAtLH(XMLoadFloat3(&m_EyePosition), XMLoadFloat3(&m_FocusPoint), XMLoadFloat3(&m_UpDirection)),);
 }

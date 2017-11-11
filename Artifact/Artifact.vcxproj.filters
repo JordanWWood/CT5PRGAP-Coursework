@@ -46,6 +46,12 @@
     <Filter Include="Data\Textures">
       <UniqueIdentifier>{3f46404d-12f4-4bfa-9b34-d40740953fd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\test">
+      <UniqueIdentifier>{84033fac-e17f-4d58-9537-22d88fc740e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\test">
+      <UniqueIdentifier>{766d230d-c5de-490d-abbb-bb59bcab03cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -76,10 +82,13 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="src\TestGame.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\test</Filter>
     </ClCompile>
     <ClCompile Include="src\TestInput.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LightingTest.cpp">
+      <Filter>Source Files\test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,17 +129,23 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="src\TestGame.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\test</Filter>
     </ClInclude>
     <ClInclude Include="src\TestInput.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LightingTest.h">
+      <Filter>Header Files\test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\Shaders\SimpleVertexShader.hlsl">
+    <FxCompile Include="data\Shaders\SimplePixelShader.hlsl">
       <Filter>Data\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="data\Shaders\SimplePixelShader.hlsl">
+    <FxCompile Include="data\Shaders\InstancedVertexShader.hlsl">
+      <Filter>Data\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="data\Shaders\SimpleVertexShader.hlsl">
       <Filter>Data\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

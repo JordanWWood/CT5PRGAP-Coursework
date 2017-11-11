@@ -1,49 +1,33 @@
-cbuffer PerApplication : register( b0 )
+cbuffer PerObject : register(b1)
 {
-    matrix projectionMatrix;
-}
-
-cbuffer PerFrame : register( b1 )
-{
-    matrix ViewProjectionMatrix;
-}
-
-cbuffer PerObject : register( b2 ) 
-{
-	matrix WorldMatrix;
-	matrix InverseTransposeWorldMatrix;
-	matrix WorldViewProjectionMatrix;
+    matrix WorldMatrix;
+    matrix InverseTransposeWorldMatrix;
+    matrix WorldViewProjectionMatrix;
 }
 
 struct AppData
 {
-	// Per-vertex data
-	float3 Position : POSITION;
-	float3 Normal   : NORMAL;
-	float2 TexCoord : TEXCOORD;
-	// Per-instance data
-	matrix Matrix   : WORLDMATRIX;
-	matrix InverseTranspose : INVERSETRANSPOSEWORLDMATRIX;
+    float3 Position : POSITION;
+    float3 Normal : NORMAL;
+    float2 TexCoord : TEXCOORD;
 };
 
 struct VertexShaderOutput
 {
-	float4 PositionWS   : TEXCOORD1;
-	float3 NormalWS     : TEXCOORD2;
-	float2 TexCoord     : TEXCOORD0;
-	float4 Position     : SV_Position;
+    float4 PositionWS : TEXCOORD1;
+    float3 NormalWS : TEXCOORD2;
+    float2 TexCoord : TEXCOORD0;
+    float4 Position : SV_Position;
 };
 
-VertexShaderOutput InstancedVertexShader(AppData IN)
+VertexShaderOutput SimpleVertexShader(AppData IN)
 {
-	VertexShaderOutput OUT;
+    VertexShaderOutput OUT;
 
-	matrix MVP = mul(ViewProjectionMatrix, IN.Matrix);
+    OUT.Position = mul(WorldViewProjectionMatrix, float4(IN.Position, 1.0f));
+    OUT.PositionWS = mul(WorldMatrix, float4(IN.Position, 1.0f));
+    OUT.NormalWS = mul((float3x3) InverseTransposeWorldMatrix, IN.Normal);
+    OUT.TexCoord = IN.TexCoord;
 
-	OUT.Position = mul(MVP, float4(IN.Position, 1.0f));
-	OUT.PositionWS = mul(IN.Matrix, float4(IN.Position, 1.0f));
-	OUT.NormalWS = mul((float3x3)IN.InverseTranspose, IN.Normal);
-	OUT.TexCoord = IN.TexCoord;
-
-	return OUT;
+    return OUT;
 }

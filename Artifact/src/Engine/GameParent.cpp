@@ -16,7 +16,7 @@ GameParent::GameParent(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow, Inp
 	                                                                               g_WindowHeight, g_WindowName,
 	                                                                               enableVSync, &WndProc)), m_Input(input), 
 																				   m_HInstance(hInstance) {
-	m_EffectFactory = std::unique_ptr<DirectX::EffectFactory>(new DirectX::EffectFactory(m_Context.GetDevice->Get()));
+	m_EffectFactory = std::make_unique<DirectX::EffectFactory>(m_Context.GetDevice());
 	m_EffectFactory->SetDirectory(L"..\\data\\");
 }
 
@@ -48,6 +48,10 @@ int GameParent::Run() {
 
 			// Cap the delta time to the max time step
 			deltaTime = std::min<float>(deltaTime, maxTimeStep);
+
+			m_Context.GetShaders()->Update(Shaders::CB_Frame, 
+				DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), 
+					static_cast<float>(m_Context.GetWindow()->GetWidth()) / static_cast<float>(m_Context.GetWindow()->GetHeight()), 0.1f, 1000.0f));
 
 			// Set deltatime in the main input class
 			mainInput->SetDeltaTime(deltaTime);

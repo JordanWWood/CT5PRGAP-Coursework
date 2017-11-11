@@ -22,8 +22,7 @@ protected:
 
 private:
 	HINSTANCE* m_HInstance = nullptr;
-	std::unique_ptr<DirectX::EffectFactory> m_EffectFactory = nullptr;
 
 protected:
-	std::unique_ptr<DirectX::EffectFactory> GetEffectFactory() const { return m_EffectFactory; }
+	std::unique_ptr<DirectX::EffectFactory> m_EffectFactory = nullptr;
 };

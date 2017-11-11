@@ -181,9 +181,6 @@ int Context::InitDirectX() {
 	m_shaders = new Shaders(m_d3dDevice, m_d3dDeviceContext);
 	if (!m_shaders->LoadShaders()) return -1;
 
-	m_ProjectionMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.0f), static_cast<float>(clientWidth) / static_cast<float>(clientHeight), 0.1f, 1000.0f);
-	m_shaders->Update(Shaders::CB_Application, m_ProjectionMatrix);
-
 	m_camera = new Camera({ 0, 0, -10 }, { 0, 0, 0 }, { 0, 1, 0 }, DirectX::XMFLOAT2{ static_cast<float>(clientWidth / 2), static_cast<float>(clientHeight / 2) });
 
 	return 1;
@@ -217,7 +214,7 @@ void Context::RenderMesh(Mesh* mesh) {
 	             m_d3dDepthStencilState, m_d3dDepthStencilView, m_d3dRasterizerState, &m_Viewport);
 }
 
-Mesh* Context::CreateMesh(const std::vector<Shaders::VertexPosColor> vertex, const std::vector<WORD> indices, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
+Mesh* Context::CreateMesh(const std::vector<Shaders::VertexPosNormTex> vertex, const std::vector<WORD> indices, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
 	Mesh* mesh = new Mesh(m_d3dDevice, vertex, indices, pPosition, pRotation, pScale);
 	m_AllMesh.push_back(mesh);
 

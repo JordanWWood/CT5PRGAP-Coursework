@@ -3,15 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-//const D3D11_INPUT_ELEMENT_DESC VertexPositionNormalTexture::InputElements[] =
-//{
-//	{ "POSITION",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-//	{ "NORMAL",     0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-//	{ "TEXCOORD",   0, DXGI_FORMAT_R32G32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-//};
-
-
-Mesh::Mesh(ID3D11Device* pD3DDevice, const std::vector<Shaders::VertexPosColor> pVertex, const std::vector<WORD> pIndicies, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
+Mesh::Mesh(ID3D11Device* pD3DDevice, const std::vector<Shaders::VertexPosNormTex> pVertex, const std::vector<WORD> pIndicies, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
 	m_Indicies = pIndicies;
 	m_Vertices = pVertex;
 
@@ -24,7 +16,7 @@ Mesh::Mesh(ID3D11Device* pD3DDevice, const std::vector<Shaders::VertexPosColor> 
 	ZeroMemory(&vertexBufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexBufferDesc.ByteWidth = sizeof(Shaders::VertexPosColor) * pVertex.size();
+	vertexBufferDesc.ByteWidth = sizeof(Shaders::VertexPosNormTex) * pVertex.size();
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
@@ -62,9 +54,9 @@ Mesh::~Mesh() {
 void Mesh::Render(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext, 
 	Shaders* shaders, ID3D11RenderTargetView* d3dRenderTargetView, ID3D11DepthStencilState* d3dDepthStencilState,
 	ID3D11DepthStencilView* d3dDepthStencilView, ID3D11RasterizerState* d3dRasterizerState, D3D11_VIEWPORT* viewport) {
-	shaders->Update(Shaders::CB_Object, m_nextMatrix);
+	shaders->Update(Shaders::CB_Object, m_nextMatrix, isInstanced);
 
-	const UINT vertexStride = sizeof(Shaders::VertexPosColor);
+	const UINT vertexStride = sizeof(Shaders::VertexPosNormTex);
 	const UINT offset = 0;
 
 	d3dDeviceContext->IASetVertexBuffers(0, 1, &m_d3dVertexBuffer, &vertexStride, &offset);
@@ -77,7 +69,7 @@ void Mesh::Render(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext
 }
 
 Mesh* Mesh::LoadFromFile(ID3D11Device* device, std::string path, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale) {
-	std::vector<Shaders::VertexPosColor> vertices;
+	std::vector<Shaders::VertexPosNormTex> vertices;
 	std::vector<WORD> indices;
 
 	std::ifstream in(path.c_str(), std::ios::in);
@@ -115,6 +107,29 @@ Mesh* Mesh::LoadFromFile(ID3D11Device* device, std::string path, const DirectX::
 	}
 
 	return new Mesh(device, vertices, indices, pPosition, pRotation, pScale);
+}
+
+HRESULT Mesh::CreateInstanceBuffer(ID3D11Device* device, uint32_t numInstances, InstanceData* instanceData) {
+	D3D11_SUBRESOURCE_DATA resourceData;
+	ZeroMemory(&resourceData, sizeof(D3D11_SUBRESOURCE_DATA));
+
+	// Create the per-instance vertex buffer.
+	D3D11_BUFFER_DESC instanceBufferDesc;
+	ZeroMemory(&instanceBufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+	instanceBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	instanceBufferDesc.ByteWidth = sizeof(instanceData) * numInstances;
+	instanceBufferDesc.CPUAccessFlags = 0;
+	instanceBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	resourceData.pSysMem = instanceData;
+
+	HRESULT hr = device->CreateBuffer(&instanceBufferDesc, &resourceData, &m_d3dInstanceBuffer);
+
+	_aligned_free(instanceData);
+
+	isInstanced = true;
+	return hr;
 }
 
 void Mesh::CalculateNextMatrix() {

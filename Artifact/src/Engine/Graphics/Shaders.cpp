@@ -55,12 +55,19 @@ bool Shaders::LoadShaders() {
 	constantBufferDesc.CPUAccessFlags = 0;
 	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
-	HRESULT hr = CreateBuffer(&constantBufferDesc, CB_Application);
-	if (FAILED(hr)) { return false; }
-	hr = CreateBuffer(&constantBufferDesc, CB_Frame);
+	// Vertex Shader Constant Buffers
+	HRESULT	hr = CreateBuffer(&constantBufferDesc, CB_Frame);
 	if (FAILED(hr)) { return false; }
 	hr = CreateBuffer(&constantBufferDesc, CB_Object);
 	if (FAILED(hr)) { return false; }
+
+	// Pixel Shader Consant Buffers
+	constantBufferDesc.ByteWidth = sizeof(MaterialProperties);
+	hr = CreateBuffer(&constantBufferDesc, CB_MaterialProperties);
+	if (FAILED(hr)) { return false; }
+
+	constantBufferDesc.ByteWidth = sizeof(LightProperties);
+	hr = CreateBuffer(&constantBufferDesc, CB_LightProperties);
 
 
 	// Load the compiled vertex shader.
@@ -77,11 +84,24 @@ bool Shaders::LoadShaders() {
 	hr = CreateShader<ID3D11VertexShader>(vertexShaderBlob, nullptr);
 	if (FAILED(hr)) { return false; }
 
-	// Create the input layout for the vertex shader.
-	D3D11_INPUT_ELEMENT_DESC vertexLayoutDesc[] = {
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(Shaders::VertexPosColor,Position), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(Shaders::VertexPosColor,Color), D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	// Create the input layout for rendering instanced vertex data.
+	D3D11_INPUT_ELEMENT_DESC vertexLayoutDesc[] =
+	{
+		// Per-vertex data.
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		// Per-instance data.
+		{ "WORLDMATRIX", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "WORLDMATRIX", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "WORLDMATRIX", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "WORLDMATRIX", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "INVERSETRANSPOSEWORLDMATRIX", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "INVERSETRANSPOSEWORLDMATRIX", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "INVERSETRANSPOSEWORLDMATRIX", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "INVERSETRANSPOSEWORLDMATRIX", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 	};
+
 
 	hr = m_d3dDevice->CreateInputLayout(vertexLayoutDesc, _countof(vertexLayoutDesc), vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_InputLayout);
 	if (FAILED(hr)) { return false; }
