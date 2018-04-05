@@ -40,7 +40,7 @@ int Game::Run() {
 	input.SetCamera(m_Context.GetCamera());
 	std::vector<Mesh::InstanceType> instances;
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 50; i++) {
 		const float x = rand() % 100 - 50;
 		const float y = rand() % 100 - 50;
 		const float z = rand() % 100;

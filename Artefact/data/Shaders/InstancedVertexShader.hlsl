@@ -1,36 +1,32 @@
-cbuffer PerFrame : register(b0)
-{
-	matrix ViewProjectionMatrix;
+cbuffer PerApplication : register(b0) {
+	matrix projectionMatrix;
 }
 
-struct AppData
-{
-	// Per-vertex data
-	float3 Position : POSITION;
-	float3 Normal   : NORMAL;
-	float2 TexCoord : TEXCOORD;
-	// Per-instance data
-	matrix Matrix   : WORLDMATRIX;
-	matrix InverseTranspose : INVERSETRANSPOSEWORLDMATRIX;
+cbuffer PerFrame : register(b1) {
+	matrix viewMatrix;
+}
+
+cbuffer PerObject : register(b2) {
+	matrix worldMatrix;
+}
+
+struct AppData {
+	float3 position : POSITION0;
+	float3 color: COLOR;
 };
 
-struct VertexShaderOutput
-{
-	float4 PositionWS   : TEXCOORD1;
-	float3 NormalWS     : TEXCOORD2;
-	float2 TexCoord     : TEXCOORD0;
-	float4 Position     : SV_Position;
+struct VertexShaderOutput {
+	// TODO exploded texcoord
+	float4 color : COLOR;
+	float4 position : SV_POSITION;
 };
 
-VertexShaderOutput InstancedVertexShader(AppData IN) {
+VertexShaderOutput SimpleVertexShader(AppData IN) {
 	VertexShaderOutput OUT;
+	matrix mvp = mul(projectionMatrix, mul(viewMatrix, worldMatrix));
 
-	matrix MVP = mul(ViewProjectionMatrix, IN.Matrix);
-
-	OUT.Position = mul(MVP, float4(IN.Position, 1.0f));
-	OUT.PositionWS = mul(IN.Matrix, float4(IN.Position, 1.0f));
-	OUT.NormalWS = mul((float3x3)IN.InverseTranspose, IN.Normal);
-	OUT.TexCoord = IN.TexCoord;
+	OUT.position = mul(mvp, float4(IN.position, 1.0f));
+	OUT.color = float4(IN.color, 1.0f);
 
 	return OUT;
 }

@@ -71,14 +71,19 @@ void Mesh::Render(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext
 	ID3D11DepthStencilView* d3dDepthStencilView, ID3D11RasterizerState* d3dRasterizerState, D3D11_VIEWPORT* viewport) {
 	shaders->Update(Shader::CB_Object, m_nextMatrix);
 
-	const UINT vertexStride = sizeof(VertexPosColor);
-	const UINT offset = 0;
+	UINT vertexStride[2];
+	vertexStride[0] = sizeof(VertexPosColor);
+	vertexStride[1] = sizeof(InstanceType);
+
+	UINT offset[2];
+	offset[0] = 0;
+	offset[1] = 0;
 
 	ID3D11Buffer* bufferPointers[2];
 	bufferPointers[0] = m_d3dVertexBuffer;
 	bufferPointers[1] = m_d3dInstanceBuffer;
 
-	d3dDeviceContext->IASetVertexBuffers(0, 1, bufferPointers, &vertexStride, &offset);
+	d3dDeviceContext->IASetVertexBuffers(0, 1, bufferPointers, vertexStride, offset);
 	d3dDeviceContext->IASetInputLayout(shaders->GetInputLayout());
 	d3dDeviceContext->IASetIndexBuffer(m_d3dIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 	d3dDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

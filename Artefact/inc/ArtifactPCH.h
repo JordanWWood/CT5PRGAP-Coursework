@@ -14,10 +14,6 @@
 #include <string>
 #include <sstream>
 
-// DXTK Includes
-#include <Effects.h>
-#include <GeometricPrimitive.h>
-
 // Link library dependencies
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")

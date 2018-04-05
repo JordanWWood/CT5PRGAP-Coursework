@@ -58,6 +58,6 @@ private:
 	DirectX::XMMATRIX m_nextMatrix;
 
 	DirectX::XMFLOAT3 m_position = { 0, 0, 0 };
-	DirectX::XMFLOAT3 m_rotation = { 0, 0, 0};
+	DirectX::XMFLOAT3 m_rotation = { 0, 0, 0 };
 	DirectX::XMFLOAT3 m_scale = { 1, 1, 1 };
 };

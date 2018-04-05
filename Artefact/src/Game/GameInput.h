@@ -5,7 +5,7 @@
 class GameInput : public Input {
 public:
 	// Findout about passable methods or identify a better way to implement input
-	GameInput(Camera* camera = nullptr);
+	GameInput(Camera* = nullptr);
 	~GameInput();
 
 	void OnKeyPressed(const KeyEventArgs&) override;
