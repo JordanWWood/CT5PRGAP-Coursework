@@ -3,10 +3,10 @@
 
 class Game : public GameParent {
 public:
-	Game(BOOL enableVSync, HINSTANCE *hInstance, int* cmdShow);
+	Game(BOOL, HINSTANCE*, int*);
 	~Game();
 
 	int Run() override;
-	void Update(float deltaTime) override;
+	void Update(float) override;
 };
 

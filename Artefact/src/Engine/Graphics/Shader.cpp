@@ -1,5 +1,6 @@
 #include "ArtifactPCH.h"
 #include "Shader.h"
+#include "comdef.h"
 
 Shader::Shader(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext) {
 	m_d3dDeviceContext = d3dDeviceContext;
@@ -70,23 +71,65 @@ bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, L
 	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
 	HRESULT hr = CreateBuffer(&constantBufferDesc, CB_Application);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed to create constant buffer CB_Application");
+#endif
+	}
 	hr = CreateBuffer(&constantBufferDesc, CB_Frame);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed to create constant buffer CB_Frame");
+#endif
+	}
 	hr = CreateBuffer(&constantBufferDesc, CB_Object);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed to create constant buffer CB_Object");
+#endif
+	}
 
 	// Load the compiled vertex shader.
 	ID3DBlob* vertexShaderBlob;
 
 	hr = D3DReadFileToBlob(compiledVertexShaderObject, &vertexShaderBlob);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed to read vertex shader to blob");
+#endif
+	}
 
 	hr = CreateShader<ID3D11VertexShader>(vertexShaderBlob, nullptr);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed create vertex shader from blob");
+#endif
+	}
 
 	hr = m_d3dDevice->CreateInputLayout(vertexLayoutDesc, size, vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_InputLayout);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed to create input layout");
+#endif
+	}
 
 	SafeRelease(vertexShaderBlob);
 
@@ -94,10 +137,24 @@ bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, L
 	ID3DBlob* pixelShaderBlob;
 
 	hr = D3DReadFileToBlob(compiledPixelShaderObject, &pixelShaderBlob);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed to read pixel shader to blob");
+#endif
+	}
 
 	CreateShader<ID3D11PixelShader>(pixelShaderBlob, nullptr);
-	if (FAILED(hr)) { return false; }
+	if (FAILED(hr)) {
+#if _DEBUG
+		_com_error err(hr);
+		FatalAppExit(0, err.ErrorMessage());
+#else
+		FatalAppExit(0, "Failed create pixel shader from blob");
+#endif
+	}
 
 	SafeRelease(pixelShaderBlob);
 

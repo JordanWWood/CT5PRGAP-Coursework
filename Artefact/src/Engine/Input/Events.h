@@ -29,7 +29,7 @@ public:
 	unsigned int Char;
 	// The 32-bit character code that was pressed. This value will be 0 if it is a non-printable character.
 	KeyState State; // Was the key pressed or released?
-	bool Control;// Is the Control modifier pressed
+	bool Control; // Is the Control modifier pressed
 	bool Shift; // Is the Shift modifier pressed
 	bool Alt; // Is the Alt modifier pressed
 };
@@ -39,13 +39,8 @@ public:
 	typedef EventArgs base;
 
 	MouseMotionEventArgs(bool leftButton, bool middleButton, bool rightButton, bool control, bool shift, int x, int y)
-		: LeftButton(leftButton)
-		  , MiddleButton(middleButton)
-		  , RightButton(rightButton)
-		  , Control(control)
-		  , Shift(shift)
-		  , X(x)
-		  , Y(y) {}
+		: LeftButton(leftButton), MiddleButton(middleButton), RightButton(rightButton), Control(control), Shift(shift), X(x),
+		  Y(y) {}
 
 	bool LeftButton; // Is the left mouse button down?
 	bool MiddleButton; // Is the middle mouse button down?
@@ -78,15 +73,8 @@ public:
 
 	MouseButtonEventArgs(MouseButton buttonID, ButtonState state, bool leftButton, bool middleButton, bool rightButton,
 	                     bool control, bool shift, int x, int y)
-		: Button(buttonID)
-		  , State(state)
-		  , LeftButton(leftButton)
-		  , MiddleButton(middleButton)
-		  , RightButton(rightButton)
-		  , Control(control)
-		  , Shift(shift)
-		  , X(x)
-		  , Y(y) {}
+		: Button(buttonID), State(state), LeftButton(leftButton), MiddleButton(middleButton), RightButton(rightButton),
+		  Control(control), Shift(shift), X(x), Y(y) {}
 
 	MouseButton Button; // The mouse button that was pressed or released.
 	ButtonState State; // Was the button pressed or released?

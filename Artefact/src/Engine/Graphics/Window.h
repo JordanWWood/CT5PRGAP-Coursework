@@ -4,10 +4,10 @@
 class Window {
 	
 public:
-	Window(LONG p_WindowWidth, LONG p_WindowHeight, LPCSTR p_WindowName, HINSTANCE *p_HInstance, int *p_cmdShow);
+	Window(LONG, LONG, LPCSTR, HINSTANCE*, int*);
 	virtual ~Window();
 
-	int InitWindow(WNDPROC WndProc);
+	int InitWindow(WNDPROC);
 
 	HWND GetWindowHandle() const { return m_WindowHandle; }
 	LONG GetHeight() const { return m_WindowHeight; }

@@ -4,15 +4,15 @@
 
 class Camera {
 public:
-	Camera(DirectX::XMFLOAT3 p_EyePosition, DirectX::XMFLOAT3 p_FocusPoint, DirectX::XMFLOAT3 p_UpDirection, DirectX::XMFLOAT2 p_WindowSize);
+	Camera(DirectX::XMFLOAT3, DirectX::XMFLOAT3, DirectX::XMFLOAT3, DirectX::XMFLOAT2);
 	~Camera();
 
-	void Update(Shader* p_Shaders, Window* p_Window) const;
+	void Update(Shader*, Window*) const;
 
 	void Move(float x, float y, float z) { Move({ x, y, z }); }
 	void Move(DirectX::XMFLOAT3 vec);
 
-	void Rotate(float degrees, DirectX::XMFLOAT3 axis);
+	void Rotate(float, DirectX::XMFLOAT3);
 private:
 	DirectX::XMFLOAT2 m_WindowSize;
 

@@ -55,6 +55,9 @@
     <Filter Include="Header Files\Game\Shader">
       <UniqueIdentifier>{fbeac63c-9df0-46bf-80bb-3fda50ea88a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Graphics\Lighting">
+      <UniqueIdentifier>{dbaeb8cf-9b64-4f43-ad14-8e34430a0319}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -68,9 +71,6 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Graphics\Mesh.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ArtefactPCH.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Graphics\Camera.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
@@ -90,9 +90,6 @@
     <ClCompile Include="src\Engine\Graphics\Shader.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Shader\GameShader.cpp">
-      <Filter>Source Files\Game\Shader</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Engine\Graphics\Context.h">
@@ -103,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="src\Engine\Graphics\Window.h">
       <Filter>Header Files\Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\ArtefactPCH.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Graphics\Camera.h">
       <Filter>Header Files\Engine\Graphics</Filter>
@@ -134,8 +128,8 @@
     <ClInclude Include="src\Engine\Graphics\Shader.h">
       <Filter>Header Files\Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\Shader\GameShader.h">
-      <Filter>Header Files\Game\Shader</Filter>
+    <ClInclude Include="inc\ArtifactPCH.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

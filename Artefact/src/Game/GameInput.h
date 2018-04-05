@@ -8,13 +8,13 @@ public:
 	GameInput(Camera* camera = nullptr);
 	~GameInput();
 
-	void OnKeyPressed(const KeyEventArgs& keyEventArgs);
-	void OnKeyReleased(const KeyEventArgs& keyEventArgs);
-	void OnMouseMoved(const MouseMotionEventArgs& mouseMotionEventArgs);
-	void OnMouseButtonPressed(const MouseButtonEventArgs& mouseButtonEventArgs);
-	void OnMouseButtonReleased(const MouseButtonEventArgs& mouseButtonEventArgs);
-	void OnMouseWheel(const MouseWheelEventArgs& mouseWheelEventArgs);
-	void OnResize(const ResizeEventArgs& resizeEventArgs);
+	void OnKeyPressed(const KeyEventArgs&) override;
+	void OnKeyReleased(const KeyEventArgs&) override;
+	void OnMouseMoved(const MouseMotionEventArgs&) override;
+	void OnMouseButtonPressed(const MouseButtonEventArgs&) override;
+	void OnMouseButtonReleased(const MouseButtonEventArgs&) override;
+	void OnMouseWheel(const MouseWheelEventArgs&) override;
+	void OnResize(const ResizeEventArgs&) override;
 
 	void SetCamera(Camera* camera) { m_mainCamera = camera; }
 private:

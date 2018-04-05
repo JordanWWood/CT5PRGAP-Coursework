@@ -3,10 +3,10 @@
 // Creation and managment of shaders
 class Shader {
 public:
-	Shader(ID3D11Device* p_Device, ID3D11DeviceContext* p_d3dDeviceContext);
+	Shader(ID3D11Device*, ID3D11DeviceContext*);
 	~Shader();
 
-	void Shader::BindShaders(ID3D11RenderTargetView* p_d3dRenderTargetView, ID3D11DepthStencilState* p_d3dDepthStencilState, ID3D11DepthStencilView* p_d3dDepthStencilView, ID3D11RasterizerState *p_d3dRaserizerState, D3D11_VIEWPORT* p_Viewport);
+	void Shader::BindShaders(ID3D11RenderTargetView*, ID3D11DepthStencilState*, ID3D11DepthStencilView*, ID3D11RasterizerState*, D3D11_VIEWPORT*);
 	
 	// Shader resources
 	enum ConstantBuffer {
@@ -15,20 +15,14 @@ public:
 		CB_Object,
 		NumConstantBuffers
 	};	
-	
-	// Vertex data for a colored cube.
-	struct VertexPosColor {
-		DirectX::XMFLOAT3 Position;
-		DirectX::XMFLOAT3 Color;
-	};
 
-	void Update(ConstantBuffer p_CB, DirectX::XMMATRIX p_Matrix);
-	HRESULT CreateBuffer(D3D11_BUFFER_DESC* p_Desc, ConstantBuffer p_Buffer);
+	void Update(ConstantBuffer, DirectX::XMMATRIX);
+	HRESULT CreateBuffer(D3D11_BUFFER_DESC*, ConstantBuffer);
 
 	template <class ShaderClass>
-	HRESULT CreateShader(ID3DBlob* p_ShaderBlob, ID3D11ClassLinkage* p_ClassLinkage);
+	HRESULT CreateShader(ID3DBlob*, ID3D11ClassLinkage*);
 
-	bool LoadShaders(D3D11_INPUT_ELEMENT_DESC *vertexLayoutDesc, int size, LPCWSTR compiledVertexShaderObject, LPCWSTR compiledPixelShaderObject);
+	bool LoadShaders(D3D11_INPUT_ELEMENT_DESC*, int, LPCWSTR, LPCWSTR);
 
 	ID3D11InputLayout* GetInputLayout() const { return m_InputLayout; }
 protected:

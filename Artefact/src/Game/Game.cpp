@@ -4,12 +4,11 @@
 
 #include "GameInput.h"
 
-std::vector<Mesh*> meshList;
-Mesh* mesh = nullptr;
+Mesh* mesh;
 
 using namespace DirectX;
 // Swap with loaded mesh
-std::vector<Shader::VertexPosColor> g_Vertices = {
+std::vector<Mesh::VertexPosColor> g_Vertices = {
 	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },  // 0
 	{ XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(1.0f, 1.0f, 0.0f) },  // 1
 	{ XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f) },  // 2
@@ -39,16 +38,20 @@ Game::~Game() {}
 // Initilise objects that will be needed from the get go of the game.
 int Game::Run() {
 	input.SetCamera(m_Context.GetCamera());
+	std::vector<Mesh::InstanceType> instances;
 
 	for (int i = 0; i < 1000; i++) {
 		const float x = rand() % 100 - 50;
 		const float y = rand() % 100 - 50;
 		const float z = rand() % 100;
+		
+		Mesh::InstanceType inst{};
+		inst.Position = { x, y, z };
 
-		mesh = m_Context.CreateMesh(g_Vertices, g_Indicies, {x, y, z}, {0, 0, 0}, {1, 1, 1});
-		meshList.push_back(mesh);
+		instances.push_back(inst);
 	}
 
+	mesh = m_Context.CreateMesh(g_Vertices, g_Indicies, instances);
 	// Call the parent function to enter the main loop of the game. We also wait for its return
 	return GameParent::Run();
 }
@@ -63,23 +66,23 @@ void Game::Update(const float deltaTime) {
 
 	XMMATRIX rot{};
 	XMMATRIX translation{};
-
-	for (int i = 0; i < 50; i++) {
-		rot = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle * deltaTime));
-		translation = XMMatrixTranslation(
-			(meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x,
-			(meshList.at(i)->GetPosition().y * sin(angle)) + meshList.at(i)->GetPosition().y, meshList.at(i)->GetPosition().z);
-
-		meshList.at(i)->SetNextMatrix(XMMatrixMultiply(translation, rot));
-	}
-
-	for (int i = 50; i < 1000; i++) {
-		rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians(angle * deltaTime));
-		translation = XMMatrixTranslation(
-			-((meshList.at(i)->GetPosition().x * cos(angle)) + meshList.at(i)->GetPosition().x),
-			-((meshList.at(i)->GetPosition().y * sin(angle)) + meshList.at(i)->GetPosition().y),
-			meshList.at(i)->GetPosition().z);
-
-		meshList.at(i)->SetNextMatrix(XMMatrixMultiply(translation, rot));
-	}
+//
+//	for (int i = 0; i < 50; i++) {
+//		rot = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle * deltaTime));
+//		translation = XMMatrixTranslation(
+//			(mesh->GetPosition(i).x * cos(angle)) + mesh->GetPosition(i).x,
+//			(mesh->GetPosition(i).y * sin(angle)) + mesh->GetPosition(i).y, mesh->GetPosition(i).z);
+//
+//		mesh->SetNextMatrix(XMMatrixMultiply(translation, rot));
+//	}
+//
+//	for (int i = 50; i < 1000; i++) {
+//		rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians(angle * deltaTime));
+//		translation = XMMatrixTranslation(
+//			-((mesh->GetPosition(i).x * cos(angle)) + mesh->GetPosition(i).x),
+//			-((mesh->GetPosition(i).y * sin(angle)) + mesh->GetPosition(i).y),
+//			mesh->GetPosition(i).z);
+//
+//		mesh->SetNextMatrix(XMMatrixMultiply(translation, rot));
+//	}
 }

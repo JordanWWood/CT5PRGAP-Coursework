@@ -84,7 +84,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ArtefactPCH.cpp" />
     <ClCompile Include="src\Engine\GameParent.cpp" />
     <ClCompile Include="src\Engine\Graphics\Camera.cpp" />
     <ClCompile Include="src\Engine\Graphics\Context.cpp" />
@@ -94,11 +93,10 @@
     <ClCompile Include="src\Engine\Input\Input.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Game\GameInput.cpp" />
-    <ClCompile Include="src\Game\Shader\GameShader.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\ArtefactPCH.h" />
+    <ClInclude Include="inc\ArtifactPCH.h" />
     <ClInclude Include="src\Engine\GameParent.h" />
     <ClInclude Include="src\Engine\Graphics\Camera.h" />
     <ClInclude Include="src\Engine\Graphics\Context.h" />
@@ -111,7 +109,6 @@
     <ClInclude Include="src\Engine\Input\KeyCodes.h" />
     <ClInclude Include="src\Game\Game.h" />
     <ClInclude Include="src\Game\GameInput.h" />
-    <ClInclude Include="src\Game\Shader\GameShader.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shaders\InstancedVertexShader.hlsl">

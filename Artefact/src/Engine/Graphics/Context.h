@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include <vector>
 
 class Mesh;
@@ -10,20 +11,20 @@ class Context
 {
 public:
 	
-	Context(HINSTANCE *p_HInstance, int *p_cmdShow, LONG p_WindowWidth, LONG p_WindowHeight, LPCSTR p_WindowName, BOOL p_vSync, WNDPROC wndproc);
+	Context(HINSTANCE*, int*, LONG, LONG, LPCSTR, BOOL, WNDPROC);
 	~Context();
 
 	int InitDirectX();
 
 	Window* GetWindow() const { return m_window; }
 
-	void Clear(const FLOAT p_ClearColor[4], FLOAT p_ClearDepth, UINT8 p_ClearStencil);
+	void Clear(const FLOAT[4], FLOAT, UINT8);
 	void Present();
 	void Frame();
 
-	Mesh* CreateMesh(const std::vector<Shader::VertexPosColor> vertex, const std::vector<WORD> indices, const DirectX::XMFLOAT3 pPosition, const DirectX::XMFLOAT3 pRotation, const DirectX::XMFLOAT3 pScale);
-	void RenderMesh(Mesh* mesh);
-	void DeleteMesh(Mesh* mesh);
+	Mesh* CreateMesh(const std::vector<Mesh::VertexPosColor>, const std::vector<WORD>, const std::vector<Mesh::InstanceType>);
+	void RenderMesh(Mesh*);
+	void DeleteMesh(Mesh*);
 
 	Shader* GetShaders() const { return m_shaders; }
 	Camera* GetCamera() const { return m_camera; }
