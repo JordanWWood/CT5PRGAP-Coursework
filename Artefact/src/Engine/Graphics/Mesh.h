@@ -23,12 +23,12 @@ public:
 
 	static Mesh* LoadFromFile(ID3D11Device*, std::string, const DirectX::XMFLOAT3, const DirectX::XMFLOAT3, const DirectX::XMFLOAT3);
 
-	void Move(float x, float y, float z) { Move({ x, y, z }); }
-	void Move(DirectX::XMFLOAT3);
-	void Rotate(float x, float y, float z) { Rotate({ x, y, z }); }
-	void Rotate(DirectX::XMFLOAT3);
-	void Scale(float x, float y, float z) { Scale({ x, y, z }); }
-	void Scale(DirectX::XMFLOAT3);
+	void Move(float x, float y, float z, UINT index) { Move({ x, y, z }, index); }
+	void Move(DirectX::XMFLOAT3, UINT index);
+	void Rotate(float x, float y, float z, UINT index) { Rotate({ x, y, z }, index); }
+	void Rotate(DirectX::XMFLOAT3, UINT index);
+	void Scale(float x, float y, float z, UINT index) { Scale({ x, y, z }, index); }
+	void Scale(DirectX::XMFLOAT3, UINT index);
 
 	std::vector<VertexPosColor> GetVertices() const { return m_Vertices; }
 	std::vector<WORD> GetIndicies() const { return m_Indicies; }
@@ -37,7 +37,7 @@ public:
 	DirectX::XMFLOAT3 GetRotation(UINT index) const { return m_rotation; }
 	DirectX::XMFLOAT3 GetScale(UINT index) const { return m_scale; }
 
-	void SetNextMatrix(DirectX::XMMATRIX pMatrix) { m_nextMatrix = pMatrix; }
+	void SetOrigin(DirectX::XMMATRIX pMatrix) { m_origin = pMatrix; }
 
 	int GetVertexCount() const { return m_Vertices.size(); }
 	int GetInstanceCount() const { return m_Instances.size(); }
@@ -55,7 +55,7 @@ private:
 	ID3D11Buffer* m_d3dIndexBuffer = nullptr;
 	ID3D11Buffer* m_d3dInstanceBuffer = nullptr;
 
-	DirectX::XMMATRIX m_nextMatrix;
+	DirectX::XMMATRIX m_origin;
 
 	DirectX::XMFLOAT3 m_position = { 0, 0, 0 };
 	DirectX::XMFLOAT3 m_rotation = { 0, 0, 0 };

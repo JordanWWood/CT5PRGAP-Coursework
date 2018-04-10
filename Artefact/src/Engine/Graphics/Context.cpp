@@ -218,7 +218,7 @@ void Context::Present() {
 
 void Context::Frame() {
 	m_camera->Update(GetShaders(), GetWindow());
-	Clear(DirectX::Colors::CornflowerBlue, 1.0f, 0);
+	Clear(DirectX::Colors::AntiqueWhite, 1.0f, 0);
 
 	for (Mesh* mesh : m_AllMesh) {
 		RenderMesh(mesh);

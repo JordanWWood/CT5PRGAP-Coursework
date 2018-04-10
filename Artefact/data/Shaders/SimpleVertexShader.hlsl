@@ -11,10 +11,12 @@ cbuffer PerObject : register( b2 )  {
 }
 
 struct AppData {
+	// Instance Buffer
+	float3 instpos : POSITION1;
+
+	// Vertex Buffer
     float3 position : POSITION0;
     float3 color: COLOR;
-
-	float3 instpos : POSITION1;
 };
 
 struct VertexShaderOutput {
@@ -22,6 +24,10 @@ struct VertexShaderOutput {
     float4 color : COLOR;
     float4 position : SV_POSITION;
 };
+
+float nrand(float2 uv) {
+	return frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453);
+}
 
 VertexShaderOutput SimpleVertexShader( AppData IN ) {
     VertexShaderOutput OUT;

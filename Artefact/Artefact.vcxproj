@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shaders\InstancedVertexShader.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">InstancedVertexShader</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SimpleVertexShader</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="data\Shaders\SimplePixelShader.hlsl">

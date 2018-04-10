@@ -110,7 +110,6 @@ bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, L
 		FatalAppExit(0, "Failed to read vertex shader to blob");
 #endif
 	}
-
 	hr = CreateShader<ID3D11VertexShader>(vertexShaderBlob, nullptr);
 	if (FAILED(hr)) {
 #if _DEBUG
@@ -120,7 +119,6 @@ bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, L
 		FatalAppExit(0, "Failed create vertex shader from blob");
 #endif
 	}
-
 	hr = m_d3dDevice->CreateInputLayout(vertexLayoutDesc, size, vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_InputLayout);
 	if (FAILED(hr)) {
 #if _DEBUG
@@ -145,7 +143,6 @@ bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, L
 		FatalAppExit(0, "Failed to read pixel shader to blob");
 #endif
 	}
-
 	CreateShader<ID3D11PixelShader>(pixelShaderBlob, nullptr);
 	if (FAILED(hr)) {
 #if _DEBUG
