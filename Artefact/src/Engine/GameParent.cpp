@@ -2,7 +2,6 @@
 
 #include "GameParent.h"
 #include "Input/Events.h"
-#include <iso646.h>
 
 const LONG g_WindowWidth = 1280;
 const LONG g_WindowHeight = 720;

@@ -146,15 +146,12 @@ void Mesh::Render(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext
 //}
 
 void Mesh::Move(DirectX::XMFLOAT3 vec, UINT index) {
-//	m_position.x += vec.x;
-//	m_position.y += vec.y;
-//	m_position.z += vec.z;
-
 	m_Instances.at(index).Position.x = vec.x;
 	m_Instances.at(index).Position.y = vec.y;
 	m_Instances.at(index).Position.z = vec.z;
 }
 
+//TODO Update
 void Mesh::Rotate(DirectX::XMFLOAT3 vec, UINT index) {
 	m_rotation.x += vec.x;
 	m_rotation.y += vec.y;

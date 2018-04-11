@@ -8,7 +8,7 @@ Mesh* mesh;
 
 using namespace DirectX;
 // Swap with loaded mesh
-std::vector<Mesh::InstanceType> instances;
+std::vector<XMFLOAT3> starts;
 
 std::vector<Mesh::VertexPosColor> g_Vertices = {
 	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },  // 0
@@ -39,9 +39,10 @@ Game::~Game() {}
 
 // Initilise objects that will be needed from the get go of the game.
 int Game::Run() {
+	std::vector<Mesh::InstanceType> instances;
 	input.SetCamera(m_Context.GetCamera());
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 20000; i++) {
 		const float x = rand() % 100 - 50;
 		const float y = rand() % 100 - 50;
 		const float z = rand() % 100;
@@ -49,6 +50,7 @@ int Game::Run() {
 		auto* inst = new Mesh::InstanceType;
 		inst->Position = { x, y, z };
 
+		starts.push_back({ x, y, z });
 		instances.push_back(*inst);
 	}
 
@@ -64,24 +66,26 @@ void Game::Update(const float deltaTime) {
 	angle += 5.0f * deltaTime;
 	if (angle > 360) { angle = 0.0f; }
 
-//	const XMVECTOR rotationAxis = XMVectorSet(0.1f, 0.1f, 0.1f, 0.1f);
-//
-//	XMMATRIX rot{};
-//	XMMATRIX translation{};
-//
-//	for (int i = 0; i < 50; i++) {
-//		rot = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle * deltaTime));
-//
-//		mesh->Move((mesh->GetPosition(i).x * cos(angle)) + mesh->GetPosition(i).x,
-//			(mesh->GetPosition(i).y * sin(angle)) + mesh->GetPosition(i).y,
-//			mesh->GetPosition(i).z, i);
-//	}
-//
-//	for (int i = 50; i < 1000; i++) {
-//		rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians(angle * deltaTime));
-//
-//		mesh->Move(-((mesh->GetPosition(i).x * cos(angle)) + mesh->GetPosition(i).x),
-//			((mesh->GetPosition(i).y * sin(angle)) + mesh->GetPosition(i).y),
-//			mesh->GetPosition(i).z, i);
-//	}
+	const XMVECTOR rotationAxis = XMVectorSet(0.1f, 0.1f, 0.1f, 0.1f);
+
+	XMMATRIX rot{};
+	XMMATRIX translation{};
+
+	for (int i = 0; i < 50; i++) {
+		rot = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle * deltaTime));
+
+		mesh->Move((starts.at(i).x * cos(angle)),
+			(starts.at(i).y * sin(angle)),
+			starts.at(i).z, i);
+	}
+
+	for (int i = 50; i < 20000; i++) {
+		rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians(angle * deltaTime));
+
+		mesh->Move(((starts.at(i).x * cos(angle)) + mesh->GetPosition(i).x),
+			((starts.at(i).y * sin(angle)) + mesh->GetPosition(i).y),
+			starts.at(i).z, i);
+	}
+
+	std::cout << "Angle: " << angle << std::endl;
 }
