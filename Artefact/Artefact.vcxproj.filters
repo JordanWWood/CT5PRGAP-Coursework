@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Engine\Graphics\Lighting">
       <UniqueIdentifier>{dbaeb8cf-9b64-4f43-ad14-8e34430a0319}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\3rdParty">
+      <UniqueIdentifier>{7a86960d-937c-4b25-83ae-d741dc9dbc10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="inc\ArtifactPCH.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Downloads\json.hpp">
+      <Filter>Source Files\3rdParty</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

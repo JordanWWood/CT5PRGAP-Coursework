@@ -58,7 +58,7 @@ int GameParent::Init() {
 		return false;
 	}
 
-	// Initialise DirectX in the case
+	// Initialise DirectX. Fail early if it doesnt succeed
 	if (!m_Context.InitDirectX()) {
 		MessageBox(nullptr, TEXT("Could not initialize DirectX."), TEXT("Error"), MB_OK);
 		return false;

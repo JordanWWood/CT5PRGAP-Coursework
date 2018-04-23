@@ -13,8 +13,12 @@ void Camera::Move(DirectX::XMFLOAT3 direction) {
 		XMMatrixTranslation(direction.x, direction.y, direction.z)));
 	m_FocusPoint = GMathVF(XMVector3Transform(GMathFV(m_FocusPoint),
 		XMMatrixTranslation(direction.x, direction.y, direction.z)));
+
+	std::cout << "(" << m_UpDirection.x << "," << m_UpDirection.y << "," << m_UpDirection.z << ")" << std::endl;
 //	m_UpDirection = GMathVF(XMVector3Transform(GMathFV(m_UpDirection),
 //		XMMatrixTranslation(direction.x, direction.y, direction.z)));
+
+	
 }
 
 void Camera::Rotate(float degrees, XMFLOAT3 axis) {	

@@ -1,8 +1,17 @@
 #pragma once
+#include "Mesh.h"
 
 // Creation and managment of shaders
 class Shader {
 public:
+	// Create the input layout for the vertex shader.
+	D3D11_INPUT_ELEMENT_DESC vertexDesc[4] = {
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(Mesh::VertexPosColor,Position), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(Mesh::VertexPosColor,Color), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "POSITION", 1, DXGI_FORMAT_R32G32B32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1},
+		{ "ROTATION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_INSTANCE_DATA, 0}
+	};
+
 	Shader(ID3D11Device*, ID3D11DeviceContext*);
 	~Shader();
 
@@ -22,7 +31,7 @@ public:
 	template <class ShaderClass>
 	HRESULT CreateShader(ID3DBlob*, ID3D11ClassLinkage*);
 
-	bool LoadShaders(D3D11_INPUT_ELEMENT_DESC*, int, LPCWSTR, LPCWSTR);
+	bool LoadShaders(LPCWSTR, LPCWSTR);
 
 	ID3D11InputLayout* GetInputLayout() const { return m_InputLayout; }
 protected:

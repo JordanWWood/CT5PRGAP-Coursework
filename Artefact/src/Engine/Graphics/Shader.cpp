@@ -2,6 +2,18 @@
 #include "Shader.h"
 #include "comdef.h"
 
+// Macro for repetative error checks
+#if _DEBUG 
+#define CHECK(hr, message) 	if (FAILED(hr)) { \
+	_com_error err(hr); \
+	FatalAppExit(0, err.ErrorMessage()); \
+} 
+#else 
+#define CHECK(hr, message) 	if (FAILED(hr)) { \
+	FatalAppExit(0, message); \
+} 
+#endif 
+
 Shader::Shader(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext) {
 	m_d3dDeviceContext = d3dDeviceContext;
 	m_d3dDevice = d3dDevice;
@@ -60,7 +72,7 @@ HRESULT Shader::CreateShader<ID3D11PixelShader>(ID3DBlob* pShaderBlob, ID3D11Cla
 	return m_d3dDevice->CreatePixelShader(pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), pClassLinkage, &m_d3dPixelShader);
 }
 
-bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, LPCWSTR compiledVertexShaderObject, LPCWSTR compiledPixelShaderObject) {
+bool Shader::LoadShaders(LPCWSTR compiledVertexShaderObject, LPCWSTR compiledPixelShaderObject) {
 	// Create the constant buffers for the variables defined in the vertex shader.
 	D3D11_BUFFER_DESC constantBufferDesc;
 	ZeroMemory(&constantBufferDesc, sizeof(D3D11_BUFFER_DESC));
@@ -71,63 +83,26 @@ bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, L
 	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 
 	HRESULT hr = CreateBuffer(&constantBufferDesc, CB_Application);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed to create constant buffer CB_Application");
-#endif
-	}
+	CHECK(hr, "Failed to create constant buffer CB_Application");
+
 	hr = CreateBuffer(&constantBufferDesc, CB_Frame);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed to create constant buffer CB_Frame");
-#endif
-	}
+	CHECK(hr, "Failed to create constant buffer CB_Frame");
+
 	hr = CreateBuffer(&constantBufferDesc, CB_Object);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed to create constant buffer CB_Object");
-#endif
-	}
+	CHECK(hr, "Failed to create constant buffer CB_Object");
 
 	// Load the compiled vertex shader.
 	ID3DBlob* vertexShaderBlob;
 
 	hr = D3DReadFileToBlob(compiledVertexShaderObject, &vertexShaderBlob);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed to read vertex shader to blob");
-#endif
-	}
+	CHECK(hr, "Failed to read vertex shader to blob");
+
 	hr = CreateShader<ID3D11VertexShader>(vertexShaderBlob, nullptr);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed create vertex shader from blob");
-#endif
-	}
-	hr = m_d3dDevice->CreateInputLayout(vertexLayoutDesc, size, vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_InputLayout);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed to create input layout");
-#endif
-	}
+	CHECK(hr, "Failed create vertex shader from blob");
+
+	// Create an Input layout from the descriptor so we can map memory to the shaders
+	hr = m_d3dDevice->CreateInputLayout(vertexDesc, sizeof(vertexDesc), vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_InputLayout);
+	CHECK(hr, "Failed to create input layout");
 
 	SafeRelease(vertexShaderBlob);
 
@@ -135,23 +110,10 @@ bool Shader::LoadShaders(D3D11_INPUT_ELEMENT_DESC* vertexLayoutDesc, int size, L
 	ID3DBlob* pixelShaderBlob;
 
 	hr = D3DReadFileToBlob(compiledPixelShaderObject, &pixelShaderBlob);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed to read pixel shader to blob");
-#endif
-	}
+	CHECK(hr, "Failed to read pixel shader to blob");
+
 	CreateShader<ID3D11PixelShader>(pixelShaderBlob, nullptr);
-	if (FAILED(hr)) {
-#if _DEBUG
-		_com_error err(hr);
-		FatalAppExit(0, err.ErrorMessage());
-#else
-		FatalAppExit(0, "Failed create pixel shader from blob");
-#endif
-	}
+	CHECK(hr, "Failed create pixel shader from blob");
 
 	SafeRelease(pixelShaderBlob);
 

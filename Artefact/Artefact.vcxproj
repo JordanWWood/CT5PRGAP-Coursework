@@ -96,6 +96,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="D:\Downloads\json.hpp" />
     <ClInclude Include="inc\ArtifactPCH.h" />
     <ClInclude Include="src\Engine\GameParent.h" />
     <ClInclude Include="src\Engine\Graphics\Camera.h" />

@@ -4,7 +4,6 @@
 
 class GameInput : public Input {
 public:
-	// Findout about passable methods or identify a better way to implement input
 	GameInput(Camera* = nullptr);
 	~GameInput();
 
