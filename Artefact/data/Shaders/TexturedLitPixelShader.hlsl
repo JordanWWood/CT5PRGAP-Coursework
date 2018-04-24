@@ -8,8 +8,7 @@
 Texture2D Texture : register(t0);
 sampler Sampler : register(s0);
 
-struct _Material
-{
+struct _Material {
     float4  Emissive;       // 16 bytes
     //----------------------------------- (16 byte boundary)
     float4  Ambient;        // 16 bytes
@@ -24,13 +23,11 @@ struct _Material
     //----------------------------------- (16 byte boundary)
 };  // Total:               // 80 bytes ( 5 * 16 )
 
-cbuffer MaterialProperties : register(b0)
-{
+cbuffer MaterialProperties : register(b0) {
     _Material Material;
 };
 
-struct Light
-{
+struct Light {
     float4      Position;               // 16 bytes
     //----------------------------------- (16 byte boundary)
     float4      Direction;              // 16 bytes
@@ -48,8 +45,7 @@ struct Light
     //----------------------------------- (16 byte boundary)
 };  // Total:                           // 80 bytes (5 * 16 byte boundary)
 
-cbuffer LightProperties : register(b1)
-{
+cbuffer LightProperties : register(b1) {
     float4 EyePosition;                 // 16 bytes
     //----------------------------------- (16 byte boundary)
     float4 GlobalAmbient;               // 16 bytes
@@ -57,14 +53,12 @@ cbuffer LightProperties : register(b1)
     Light Lights[MAX_LIGHTS];           // 80 * 8 = 640 bytes
 };  // Total:                           // 672 bytes (42 * 16 byte boundary)
 
-float4 DoDiffuse( Light light, float3 L, float3 N )
-{
+float4 DoDiffuse( Light light, float3 L, float3 N ) {
     float NdotL = max( 0, dot( N, L ) );
     return light.Color * NdotL;
 }
 
-float4 DoSpecular( Light light, float3 V, float3 L, float3 N )
-{
+float4 DoSpecular( Light light, float3 V, float3 L, float3 N ) {
     // Phong lighting.
     float3 R = normalize( reflect( -L, N ) );
     float RdotV = max( 0, dot( R, V ) );
@@ -76,19 +70,16 @@ float4 DoSpecular( Light light, float3 V, float3 L, float3 N )
     return light.Color * pow( RdotV, Material.SpecularPower );
 }
 
-float DoAttenuation( Light light, float d )
-{
+float DoAttenuation( Light light, float d ) {
     return 1.0f / ( light.ConstantAttenuation + light.LinearAttenuation * d + light.QuadraticAttenuation * d * d );
 }
 
-struct LightingResult
-{
+struct LightingResult {
     float4 Diffuse;
     float4 Specular;
 };
 
-LightingResult DoPointLight( Light light, float3 V, float4 P, float3 N )
-{
+LightingResult DoPointLight( Light light, float3 V, float4 P, float3 N ) {
     LightingResult result;
 
     float3 L = ( light.Position - P ).xyz;
@@ -103,8 +94,7 @@ LightingResult DoPointLight( Light light, float3 V, float4 P, float3 N )
     return result;
 }
 
-LightingResult DoDirectionalLight( Light light, float3 V, float4 P, float3 N )
-{
+LightingResult DoDirectionalLight( Light light, float3 V, float4 P, float3 N ) {
     LightingResult result;
 
     float3 L = -light.Direction.xyz;
@@ -115,16 +105,14 @@ LightingResult DoDirectionalLight( Light light, float3 V, float4 P, float3 N )
     return result;
 }
 
-float DoSpotCone( Light light, float3 L )
-{
+float DoSpotCone( Light light, float3 L ) {
     float spotMinAngle = cos( light.SpotAngle );
     float spotMaxAngle = ( spotMinAngle + 1.0f ) / 2.0f;
     float cosAngle = dot( light.Direction.xyz, L );
     return smoothstep( spotMinAngle, spotMaxAngle, cosAngle ); 
 }
 
-LightingResult DoSpotLight( Light light, float3 V, float4 P, float3 N )
-{
+LightingResult DoSpotLight( Light light, float3 V, float4 P, float3 N ) {
     LightingResult result;
 
     float3 L = ( light.Position - P ).xyz;
@@ -140,36 +128,20 @@ LightingResult DoSpotLight( Light light, float3 V, float4 P, float3 N )
     return result;
 }
 
-LightingResult ComputeLighting( float4 P, float3 N )
-{
+LightingResult ComputeLighting( float4 P, float3 N ) {
     float3 V = normalize( EyePosition - P ).xyz;
 
     LightingResult totalResult = { {0, 0, 0, 0}, {0, 0, 0, 0} };
 
     [unroll]
-    for( int i = 0; i < MAX_LIGHTS; ++i )
-    {
+    for( int i = 0; i < MAX_LIGHTS; ++i ) {
         LightingResult result = { {0, 0, 0, 0}, {0, 0, 0, 0} };
 
         if ( !Lights[i].Enabled ) continue;
-        
-        switch( Lights[i].LightType )
-        {
-        case DIRECTIONAL_LIGHT:
-            {
-                result = DoDirectionalLight( Lights[i], V, P, N );
-            }
-            break;
-        case POINT_LIGHT: 
-            {
-                result = DoPointLight( Lights[i], V, P, N );
-            }
-            break;
-        case SPOT_LIGHT:
-            {
-                result = DoSpotLight( Lights[i], V, P, N );
-            }
-            break;
+        switch( Lights[i].LightType ) {
+			case DIRECTIONAL_LIGHT: result = DoDirectionalLight( Lights[i], V, P, N ); break;
+			case POINT_LIGHT: result = DoPointLight( Lights[i], V, P, N );             break;
+			case SPOT_LIGHT: result = DoSpotLight( Lights[i], V, P, N );               break;
         }
         totalResult.Diffuse += result.Diffuse;
         totalResult.Specular += result.Specular;
@@ -181,15 +153,13 @@ LightingResult ComputeLighting( float4 P, float3 N )
     return totalResult;
 }
 
-struct PixelShaderInput
-{
+struct PixelShaderInput {
     float4 PositionWS   : TEXCOORD1;
     float3 NormalWS     : TEXCOORD2;
     float2 TexCoord     : TEXCOORD0;
 };
 
-float4 TexturedLitPixelShader( PixelShaderInput IN ) : SV_TARGET
-{
+float4 TexturedLitPixelShader( PixelShaderInput IN ) : SV_TARGET {
     LightingResult lit = ComputeLighting( IN.PositionWS, normalize(IN.NormalWS) );
     
     float4 emissive = Material.Emissive;
@@ -199,8 +169,7 @@ float4 TexturedLitPixelShader( PixelShaderInput IN ) : SV_TARGET
 
     float4 texColor = { 1, 1, 1, 1 };
     
-    if ( Material.UseTexture )
-    {
+    if ( Material.UseTexture ) {
         texColor = Texture.Sample( Sampler, IN.TexCoord );
     }
 

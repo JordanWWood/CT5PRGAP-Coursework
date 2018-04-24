@@ -87,9 +87,9 @@ void Game::Update(const float deltaTime) {
 	for (int i = 0; i < 20000; i++) {
 		mesh->Rotate({ sin(angle), cos(angle), .0f }, i);
 
-//		mesh->Move(((starts.at(i).x * cos(angle)) + mesh->GetPosition(i).x),
-//			((starts.at(i).y * sin(angle)) + mesh->GetPosition(i).y),
-//			starts.at(i).z, i);
+		mesh->Move(((starts.at(i).x * cos(angle)) + mesh->GetPosition(i).x),
+			((starts.at(i).y * sin(angle)) + mesh->GetPosition(i).y),
+			starts.at(i).z, i);
 	}
 
 
