@@ -1,15 +1,16 @@
 #pragma once
-#include "Mesh.h"
 
 // Creation and managment of shaders
 class Shader {
 public:
-	// Create the input layout for the vertex shader.
-	D3D11_INPUT_ELEMENT_DESC vertexDesc[4] = {
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(Mesh::VertexPosColor,Position), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(Mesh::VertexPosColor,Color), D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "POSITION", 1, DXGI_FORMAT_R32G32B32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1},
-		{ "ROTATION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_INSTANCE_DATA, 0}
+	struct VertexPosColor {
+		DirectX::XMFLOAT3 Position;
+		DirectX::XMFLOAT3 Color;
+	};
+
+	struct InstanceType {
+		DirectX::XMFLOAT3 Position;
+		DirectX::XMFLOAT3 Rotaion;
 	};
 
 	Shader(ID3D11Device*, ID3D11DeviceContext*);
@@ -43,4 +44,12 @@ protected:
 
 	ID3D11Buffer* m_d3dConstantBuffers[NumConstantBuffers];
 	ID3D11InputLayout* m_InputLayout = nullptr;
+
+	// Create the input layout for the vertex shader.
+	D3D11_INPUT_ELEMENT_DESC vertexDesc[4] = {
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(VertexPosColor,Position), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offsetof(VertexPosColor,Color), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "POSITION", 1, DXGI_FORMAT_R32G32B32_FLOAT, 1, offsetof(InstanceType,Position), D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "ROTATION", 1, DXGI_FORMAT_R32G32B32_FLOAT, 1, offsetof(InstanceType,Rotaion) , D3D11_INPUT_PER_INSTANCE_DATA, 1 }
+	};
 };

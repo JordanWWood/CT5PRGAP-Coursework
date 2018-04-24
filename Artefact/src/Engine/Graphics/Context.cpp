@@ -202,7 +202,7 @@ void Context::RenderMesh(Mesh* mesh) {
 	             m_d3dDepthStencilState, m_d3dDepthStencilView, m_d3dRasterizerState, &m_Viewport);
 }
 
-Mesh* Context::CreateMesh(const std::vector<Mesh::VertexPosColor> vertex, const std::vector<WORD> indices, const std::vector<Mesh::InstanceType> instances) {
+Mesh* Context::CreateMesh(const std::vector<Shader::VertexPosColor> vertex, const std::vector<WORD> indices, const std::vector<Shader::InstanceType> instances) {
 	Mesh* mesh = new Mesh(m_d3dDevice, vertex, indices, instances);
 	m_AllMesh.push_back(mesh);
 

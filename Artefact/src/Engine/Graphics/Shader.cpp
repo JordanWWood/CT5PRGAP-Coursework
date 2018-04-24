@@ -101,7 +101,7 @@ bool Shader::LoadShaders(LPCWSTR compiledVertexShaderObject, LPCWSTR compiledPix
 	CHECK(hr, "Failed create vertex shader from blob");
 
 	// Create an Input layout from the descriptor so we can map memory to the shaders
-	hr = m_d3dDevice->CreateInputLayout(vertexDesc, sizeof(vertexDesc), vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_InputLayout);
+	hr = m_d3dDevice->CreateInputLayout(vertexDesc, _countof(vertexDesc), vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_InputLayout);
 	CHECK(hr, "Failed to create input layout");
 
 	SafeRelease(vertexShaderBlob);

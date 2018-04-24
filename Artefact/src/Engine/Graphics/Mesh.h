@@ -5,16 +5,7 @@
 class Mesh
 {
 public:
-	struct VertexPosColor {
-		DirectX::XMFLOAT3 Position;
-		DirectX::XMFLOAT3 Color;
-	};
-
-	struct InstanceType {
-		DirectX::XMFLOAT3 Position;
-	};
-
-	Mesh(ID3D11Device*, const std::vector<VertexPosColor>, const std::vector<WORD>, const std::vector<InstanceType>);
+	Mesh(ID3D11Device*, const std::vector<Shader::VertexPosColor>, const std::vector<WORD>, const std::vector<Shader::InstanceType>);
 	~Mesh();
 
 	void Render(ID3D11Device*, ID3D11DeviceContext*,
@@ -30,7 +21,7 @@ public:
 	void Scale(float x, float y, float z, UINT index) { Scale({ x, y, z }, index); }
 	void Scale(DirectX::XMFLOAT3, UINT index);
 
-	std::vector<VertexPosColor> GetVertices() const { return m_Vertices; }
+	std::vector<Shader::VertexPosColor> GetVertices() const { return m_Vertices; }
 	std::vector<WORD> GetIndicies() const { return m_Indicies; }
 
 	DirectX::XMFLOAT3 GetPosition(UINT index) const { return m_Instances.at(index).Position; }
@@ -46,9 +37,9 @@ public:
 private:
 	void CalculateNextMatrix();
 
-	std::vector<VertexPosColor> m_Vertices;
+	std::vector<Shader::VertexPosColor> m_Vertices;
 	std::vector<WORD> m_Indicies;
-	std::vector<InstanceType> m_Instances;
+	std::vector<Shader::InstanceType> m_Instances;
 
 	ID3D11InputLayout* m_d3dInputLayout = nullptr;
 	ID3D11Buffer* m_d3dVertexBuffer = nullptr;

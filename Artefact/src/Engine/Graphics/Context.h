@@ -7,8 +7,7 @@
 
 class Mesh;
 
-class Context
-{
+class Context {
 public:
 	
 	Context(HINSTANCE*, int*, LONG, LONG, LPCSTR, BOOL, WNDPROC);
@@ -22,7 +21,7 @@ public:
 	void Present();
 	void Frame();
 
-	Mesh* CreateMesh(const std::vector<Mesh::VertexPosColor>, const std::vector<WORD>, const std::vector<Mesh::InstanceType>);
+	Mesh* CreateMesh(const std::vector<Shader::VertexPosColor>, const std::vector<WORD>, const std::vector<Shader::InstanceType>);
 	void RenderMesh(Mesh*);
 	void DeleteMesh(Mesh*);
 

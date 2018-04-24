@@ -3,6 +3,7 @@
 #include "../Engine/Graphics/Mesh.h"
 
 #include "GameInput.h"
+#include <random>
 
 Mesh* mesh;
 
@@ -10,7 +11,7 @@ using namespace DirectX;
 // Swap with loaded mesh
 std::vector<XMFLOAT3> starts;
 
-std::vector<Mesh::VertexPosColor> g_Vertices = {
+std::vector<Shader::VertexPosColor> g_Vertices = {
 	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },  // 0
 	{ XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(1.0f, 1.0f, 0.0f) },  // 1
 	{ XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f) },  // 2
@@ -36,10 +37,11 @@ Game::Game(BOOL enableVSync, HINSTANCE* hInstance, int* cmdShow): GameParent(ena
 Game::~Game() {}
 
 #define SIZE = 10
+#define M_PI           3.14159265358979323846  /* pi */
 
 // Initilise objects that will be needed from the get go of the game.
 int Game::Run() {
-	std::vector<Mesh::InstanceType> instances;
+	std::vector<Shader::InstanceType> instances;
 	input.SetCamera(m_Context.GetCamera());
 
 	for (int i = 0; i < 20000; i++) {
@@ -47,8 +49,16 @@ int Game::Run() {
 		const float y = rand() % 100 - 50;
 		const float z = rand() % 100;
 
-		auto* inst = new Mesh::InstanceType;
+		std::mt19937 rng(std::random_device{}()); //Unless you are using MinGW
+		std::uniform_real_distribution<> dist(0, 2 * M_PI);
+
+		float rotX = dist(rng);
+		float rotY = dist(rng);
+		float rotZ = dist(rng);
+
+		auto* inst = new Shader::InstanceType;
 		inst->Position = { x, y, z };
+		inst->Rotaion = { rotX, rotY, rotZ };
 
 		starts.push_back({ x, y, z });
 		instances.push_back(*inst);
@@ -66,26 +76,22 @@ void Game::Update(const float deltaTime) {
 	angle += 5.0f * deltaTime;
 	if (angle > 360) { angle = 0.0f; }
 
-	const XMVECTOR rotationAxis = XMVectorSet(0.1f, 0.1f, 0.1f, 0.1f);
+//	for (int i = 0; i < 50; i++) {
+//		mesh->Rotate({sin(angle), .0f, .0f }, i);
+//
+//		mesh->Move((starts.at(i).x * cos(angle)),
+//			(starts.at(i).y * sin(angle)),
+//			starts.at(i).z, i);
+//	}
 
-	XMMATRIX rot{};
-	XMMATRIX translation{};
+	for (int i = 0; i < 20000; i++) {
+		mesh->Rotate({ sin(angle), cos(angle), .0f }, i);
 
-	for (int i = 0; i < 50; i++) {
-		rot = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle * deltaTime));
-
-		mesh->Move((starts.at(i).x * cos(angle)),
-			(starts.at(i).y * sin(angle)),
-			starts.at(i).z, i);
+//		mesh->Move(((starts.at(i).x * cos(angle)) + mesh->GetPosition(i).x),
+//			((starts.at(i).y * sin(angle)) + mesh->GetPosition(i).y),
+//			starts.at(i).z, i);
 	}
 
-	for (int i = 50; i < 20000; i++) {
-		rot = XMMatrixRotationAxis(rotationAxis, -XMConvertToRadians(angle * deltaTime));
-
-		mesh->Move(((starts.at(i).x * cos(angle)) + mesh->GetPosition(i).x),
-			((starts.at(i).y * sin(angle)) + mesh->GetPosition(i).y),
-			starts.at(i).z, i);
-	}
 
 	std::cout << "Angle: " << angle << std::endl;
 }
