@@ -159,3 +159,7 @@ $RECYCLE.BIN/
 Artifact/bin/
 
 Artefact/bin/
+
+bin/
+
+bin-int/

@@ -1,11 +1,10 @@
-#include "ArtifactPCH.h"
 #include "GameInput.h"
 
-GameInput::GameInput(Camera* camera) : Input(Input()), m_mainCamera(camera) {}
+GameInput::GameInput(Artefact::Camera* camera) : Input(Input()), m_mainCamera(camera) {}
 
 GameInput::~GameInput() {}
 
-void GameInput::OnKeyPressed(const KeyEventArgs& e) {
+void GameInput::OnKeyPressed(const Artefact::KeyEventArgs& e) {
 	const int speed = 100;
 	switch(e.Key) {
 		case 'S': m_mainCamera->Move(0, 0, -(speed * m_deltatime)); break;
@@ -15,9 +14,9 @@ void GameInput::OnKeyPressed(const KeyEventArgs& e) {
 		case VK_ESCAPE: break;
 	}
 }
-void GameInput::OnKeyReleased(const KeyEventArgs& e) {}
+void GameInput::OnKeyReleased(const Artefact::KeyEventArgs& e) {}
 
-void GameInput::OnMouseMoved(const MouseMotionEventArgs& e) {
+void GameInput::OnMouseMoved(const Artefact::MouseMotionEventArgs& e) {
 	Input::OnMouseMoved(e);
 
 	if (m_mainCamera == nullptr) return;
@@ -34,7 +33,7 @@ void GameInput::OnMouseMoved(const MouseMotionEventArgs& e) {
 	}
 }
 
-void GameInput::OnMouseButtonPressed(const MouseButtonEventArgs& e) {}
-void GameInput::OnMouseButtonReleased(const MouseButtonEventArgs& e) {}
-void GameInput::OnMouseWheel(const MouseWheelEventArgs& e) {}
-void GameInput::OnResize(const ResizeEventArgs& e) {}
+void GameInput::OnMouseButtonPressed(const Artefact::MouseButtonEventArgs& e) {}
+void GameInput::OnMouseButtonReleased(const Artefact::MouseButtonEventArgs& e) {}
+void GameInput::OnMouseWheel(const Artefact::MouseWheelEventArgs& e) {}
+void GameInput::OnResize(const Artefact::ResizeEventArgs& e) {}

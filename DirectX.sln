@@ -1,20 +1,39 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Artefact", "Artefact\Artefact.vcxproj", "{59BBB3E9-F10F-4AFD-BB4A-A693F382462E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{59BBB3E9-F10F-4AFD-BB4A-A693F382462E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{59BBB3E9-F10F-4AFD-BB4A-A693F382462E}.Debug|Win32.Build.0 = Debug|Win32
+		{59BBB3E9-F10F-4AFD-BB4A-A693F382462E}.Debug|x64.ActiveCfg = Debug|Win32
 		{59BBB3E9-F10F-4AFD-BB4A-A693F382462E}.Release|Win32.ActiveCfg = Release|Win32
 		{59BBB3E9-F10F-4AFD-BB4A-A693F382462E}.Release|Win32.Build.0 = Release|Win32
+		{59BBB3E9-F10F-4AFD-BB4A-A693F382462E}.Release|x64.ActiveCfg = Release|Win32
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Debug|Win32.Build.0 = Debug|Win32
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Debug|x64.ActiveCfg = Debug|x64
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Debug|x64.Build.0 = Debug|x64
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Release|Win32.ActiveCfg = Release|Win32
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Release|Win32.Build.0 = Release|Win32
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Release|x64.ActiveCfg = Release|x64
+		{241EDBB7-DBFC-49B6-B4F6-AF403C841EB9}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F63CA3A-0F81-4F9A-8AA6-37A73A1E0FE0}
 	EndGlobalSection
 EndGlobal

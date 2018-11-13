@@ -5,57 +5,59 @@
 #include "Mesh.h"
 #include <vector>
 
-class Mesh;
+namespace Artefact {
+    class Mesh;
 
-class Context {
-public:
-	
-	Context(HINSTANCE*, int*, LONG, LONG, LPCSTR, BOOL, WNDPROC);
-	~Context();
+    class Context {
+    public:
 
-	int InitDirectX();
+        Context(HINSTANCE*, int*, LONG, LONG, LPCSTR, BOOL, WNDPROC);
+        ~Context();
 
-	Window* GetWindow() const { return m_window; }
+        int InitDirectX();
 
-	void Clear(const FLOAT[4], FLOAT, UINT8);
-	void Present();
-	void Frame();
+        Window* GetWindow() const { return m_window; }
 
-	Mesh* CreateMesh(const std::vector<Shader::VertexPosColor>, const std::vector<WORD>, const std::vector<Shader::InstanceType>);
-	void RenderMesh(Mesh*);
-	void DeleteMesh(Mesh*);
+        void Clear(const FLOAT[4], FLOAT, UINT8);
+        void Present();
+        void Frame();
 
-	Shader* GetShaders() const { return m_shaders; }
-	Camera* GetCamera() const { return m_camera; }
-private:
-	Window* m_window = nullptr;
-	Shader* m_shaders = nullptr;
-	Camera *m_camera = nullptr;
+        Mesh* CreateMesh(const std::vector<Shader::VertexPosColor>, const std::vector<WORD>, const std::vector<Shader::InstanceType>);
+        void RenderMesh(Mesh*);
+        void DeleteMesh(Mesh*);
 
-	BOOL m_EnableVSync;
+        Shader* GetShaders() const { return m_shaders; }
+        Camera* GetCamera() const { return m_camera; }
+    private:
+        Window * m_window = nullptr;
+        Shader* m_shaders = nullptr;
+        Camera *m_camera = nullptr;
 
-	// Direct3D device and swap chain.
-	ID3D11Device* m_d3dDevice = nullptr;
-	ID3D11DeviceContext* m_d3dDeviceContext = nullptr;
-	IDXGISwapChain* m_d3dSwapChain = nullptr;
+        BOOL m_EnableVSync;
 
-	// Render target view for the back buffer of the swap chain.
-	ID3D11RenderTargetView* m_d3dRenderTargetView = nullptr;
-	// Depth/stencil view for use as a depth buffer.
-	ID3D11DepthStencilView* m_d3dDepthStencilView = nullptr;
-	// A texture to associate to the depth stencil view.
-	ID3D11Texture2D* m_d3dDepthStencilBuffer = nullptr;
+        // Direct3D device and swap chain.
+        ID3D11Device* m_d3dDevice = nullptr;
+        ID3D11DeviceContext* m_d3dDeviceContext = nullptr;
+        IDXGISwapChain* m_d3dSwapChain = nullptr;
 
-	// Define the functionality of the depth/stencil stages.
-	ID3D11DepthStencilState* m_d3dDepthStencilState = nullptr;
-	// Define the functionality of the rasterizer stage.
-	ID3D11RasterizerState* m_d3dRasterizerState = nullptr;
-	D3D11_VIEWPORT m_Viewport = { 0 };
+        // Render target view for the back buffer of the swap chain.
+        ID3D11RenderTargetView* m_d3dRenderTargetView = nullptr;
+        // Depth/stencil view for use as a depth buffer.
+        ID3D11DepthStencilView* m_d3dDepthStencilView = nullptr;
+        // A texture to associate to the depth stencil view.
+        ID3D11Texture2D* m_d3dDepthStencilBuffer = nullptr;
 
-	DirectX::XMMATRIX m_ViewMatrix;
-	DirectX::XMMATRIX m_ProjectionMatrix;
+        // Define the functionality of the depth/stencil stages.
+        ID3D11DepthStencilState* m_d3dDepthStencilState = nullptr;
+        // Define the functionality of the rasterizer stage.
+        ID3D11RasterizerState* m_d3dRasterizerState = nullptr;
+        D3D11_VIEWPORT m_Viewport = { 0 };
 
-	std::vector<Mesh*> m_AllMesh;
+        DirectX::XMMATRIX m_ViewMatrix;
+        DirectX::XMMATRIX m_ProjectionMatrix;
 
-	static DXGI_RATIONAL QueryRefreshRate(UINT p_ScreenWidth, UINT m_ScreenHeight, BOOL p_vsync);
-};
+        std::vector<Mesh*> m_AllMesh;
+
+        static DXGI_RATIONAL QueryRefreshRate(UINT p_ScreenWidth, UINT m_ScreenHeight, BOOL p_vsync);
+    };
+}

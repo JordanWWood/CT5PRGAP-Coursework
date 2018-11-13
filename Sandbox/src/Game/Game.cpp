@@ -1,17 +1,15 @@
-#include "ArtifactPCH.h"
 #include "Game.h"
-#include "../Engine/Graphics/Mesh.h"
-
 #include "GameInput.h"
+
 #include <random>
 
-Mesh* mesh;
+Artefact::Mesh* mesh;
 
 using namespace DirectX;
 // Swap with loaded mesh
 std::vector<XMFLOAT3> starts;
 
-std::vector<Shader::VertexPosColor> g_Vertices = {
+std::vector<Artefact::Shader::VertexPosColor> g_Vertices = {
 	{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) },  // 0
 	{ XMFLOAT3(-1.0f, 1.0f, -1.0f),  XMFLOAT3(1.0f, 1.0f, 0.0f) },  // 1
 	{ XMFLOAT3(1.0f, 1.0f, -1.0f),   XMFLOAT3(1.0f, 0.0f, 0.0f) },  // 2
@@ -41,7 +39,7 @@ Game::~Game() {}
 
 // Initilise objects that will be needed from the get go of the game.
 int Game::Run() {
-	std::vector<Shader::InstanceType> instances;
+	std::vector<Artefact::Shader::InstanceType> instances;
 	input.SetCamera(m_Context.GetCamera());
 
 	for (int i = 0; i < 20000; i++) {
@@ -56,7 +54,7 @@ int Game::Run() {
 		float rotY = dist(rng);
 		float rotZ = dist(rng);
 
-		auto* inst = new Shader::InstanceType;
+		auto* inst = new Artefact::Shader::InstanceType;
 		inst->Position = { x, y, z };
 		inst->Rotaion = { rotX, rotY, rotZ };
 
@@ -91,7 +89,4 @@ void Game::Update(const float deltaTime) {
 			((starts.at(i).y * sin(angle)) + mesh->GetPosition(i).y),
 			starts.at(i).z, i);
 	}
-
-
-	std::cout << "Angle: " << angle << std::endl;
 }

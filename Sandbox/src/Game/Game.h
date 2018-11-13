@@ -1,7 +1,7 @@
 #pragma once
-#include "../Engine/GameParent.h"
+#include <Artefact.h>
 
-class Game : public GameParent {
+class Game : public Artefact::GameParent {
 public:
 	Game(BOOL, HINSTANCE*, int*);
 	~Game();

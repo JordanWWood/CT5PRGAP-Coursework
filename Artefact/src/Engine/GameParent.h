@@ -4,21 +4,23 @@
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-// High level interaction with rendering for simple and effective interaction. Creates a DirectX context for the game.
-class GameParent {
-public:
-	GameParent();
-	GameParent(BOOL, HINSTANCE*, int*, Input*);
-	virtual ~GameParent();
+namespace Artefact {
+    // High level interaction with rendering for simple and effective interaction. Creates a DirectX context for the game.
+    class GameParent {
+    public:
+        GameParent();
+        GameParent(BOOL, HINSTANCE*, int*, Input*);
+        virtual ~GameParent();
 
-	int Init();
+        int Init();
 
-	virtual int Run();
-	virtual void Update(float) = 0;
-protected:
-	class Context m_Context;
-	Input* m_Input;
+        virtual int Run();
+        virtual void Update(float) = 0;
+    protected:
+        class Context m_Context;
+        Input* m_Input;
 
-private:
-	HINSTANCE* m_HInstance = nullptr;
-};
+    private:
+        HINSTANCE * m_HInstance = nullptr;
+    };
+}
